@@ -1,0 +1,17 @@
+digraph G {
+nodesep=.02;
+rankdir=LR;
+node[fillcolor =cyan , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+label = "Lista Simple" ;
+node1[label = "{<n>Antonio| <p> }"];
+node2[label = "{<n>Carlos| <p> }"];
+node3[label = "{<n>Eduardo| <p> }"];
+node4[label = "{<n>Heidy| <p> }"];
+node5[label = "{<n>Rodrigo| <p> }"];
+node6[label = "null",width=0.5];
+node1:p -> node2:n;
+node2:p -> node3:n;
+node3:p -> node4:n;
+node4:p -> node5:n;
+node5:p -> node6:n;
+}

@@ -1,0 +1,4 @@
+﻿  Todo.cpp
+c:\users\admin\desktop\prueba proyecto\prueba proyecto\todo.cpp(14): warning C4101: 'nom': variable local sin referencia
+  prueba proyecto.vcxproj -> C:\Users\ADMIN\Desktop\prueba proyecto\Debug\prueba proyecto.exe
+  prueba proyecto.vcxproj -> C:\Users\ADMIN\Desktop\prueba proyecto\Debug\prueba proyecto.pdb (Full PDB)

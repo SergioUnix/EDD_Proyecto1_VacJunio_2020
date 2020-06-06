@@ -1,0 +1,7 @@
+digraph G {
+ nodesep=.05;
+rankdir = LR;
+label = " <= == == = Direccion de la cola" ;
+node[fillcolor =darkorange1 , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+node1[label="{segundo dato|tercer dato|cuarto dato}"];
+}

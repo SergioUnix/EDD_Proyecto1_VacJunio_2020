@@ -1,0 +1,8 @@
+digraph G {
+ nodesep=.05;
+rankdir = L;
+node[fillcolor =aquamarine2 , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+node2[label="{ Cabeza de la pila }"];
+node2->node1;
+ node1[label="{elemento 3|elemento 2|elemento 1}"];
+}

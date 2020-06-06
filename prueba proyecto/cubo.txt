@@ -1,0 +1,60 @@
+digraph Sparce_Matrix { 
+node [shape=box]  
+Mt[ label = "Raiz Matrix", width = 1.5, style = filled, fillcolor = darkolivegreen3, group = 1 ];  
+/*nodos vacíos, necesarios para anular la ubicación de nodo predeterminada de graphiz  */ 
+ e0[ shape = point, width = 0 ];  
+e1[ shape = point, width = 0 ];   
+Uempresa1[label = "empresa1" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
+Uempresa2[label = "empresa2" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
+Uempresa3[label = "empresa3" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
+Uempresa4[label = "empresa4" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
+Uempresa1-> Uempresa2; 
+Uempresa2-> Uempresa1; 
+Uempresa2-> Uempresa3; 
+Uempresa3-> Uempresa2; 
+Uempresa3-> Uempresa4; 
+Uempresa4-> Uempresa3; 
+ADepartamento1[label = "Departamento1" width = 1.5 style = filled, fillcolor = turquoise3, group =Departamento1];  
+ADepartamento2[label = "Departamento2" width = 1.5 style = filled, fillcolor = turquoise3, group =Departamento2];  
+ADepartamento3[label = "Departamento3" width = 1.5 style = filled, fillcolor = turquoise3, group =Departamento3];  
+ADepartamento4[label = "Departamento4" width = 1.5 style = filled, fillcolor = turquoise3, group =Departamento4];  
+ADepartamento1-> ADepartamento2; 
+ADepartamento2-> ADepartamento1; 
+ADepartamento2-> ADepartamento3; 
+ADepartamento3-> ADepartamento2; 
+ADepartamento3-> ADepartamento4; 
+ADepartamento4-> ADepartamento3; 
+Mt -> Uempresa1[dir="both"]; Mt -> ADepartamento1[dir="both"]; 
+{ rank = same; Mt;ADepartamento1; ADepartamento2; ADepartamento3; ADepartamento4; } 
+NDepartamento1empresa1 [label = "Dato1" width = 1.5, group =Departamento1 ];  
+NDepartamento4empresa1 [label = "Dato2" width = 1.5, group =Departamento4 ];  
+NDepartamento2empresa2 [label = "Dato2" width = 1.5, group =Departamento2 ];  
+NDepartamento3empresa3 [label = "Dato3" width = 1.5, group =Departamento3 ];  
+NDepartamento4empresa4 [label = "Dato4" width = 1.5, group =Departamento4 ];  
+Uempresa1-> NDepartamento1empresa1[dir="both"]; 
+ADepartamento1-> NDepartamento1empresa1[dir="both"];
+NDepartamento1empresa1-> NDepartamento4empresa1; 
+NDepartamento4empresa1-> NDepartamento1empresa1; 
+ADepartamento4-> NDepartamento4empresa1[dir="both"];
+{ rank = same; Uempresa1;NDepartamento1empresa1;NDepartamento4empresa1;} 
+Uempresa2-> NDepartamento2empresa2[dir="both"]; 
+ADepartamento2-> NDepartamento2empresa2[dir="both"];
+{ rank = same; Uempresa2;NDepartamento2empresa2;} 
+Uempresa3-> NDepartamento3empresa3[dir="both"]; 
+ADepartamento3-> NDepartamento3empresa3[dir="both"];
+{ rank = same; Uempresa3;NDepartamento3empresa3;} 
+Uempresa4-> NDepartamento4empresa4[dir="both"]; 
+NDepartamento4empresa4-> NDepartamento4empresa1; 
+NDepartamento4empresa1-> NDepartamento4empresa4; 
+{ rank = same; Uempresa4;NDepartamento4empresa4;} 
+subgraph cluster_0 {   style = filled; charset = latin1; bgcolor = black; color = white; node[fillcolor =lemonchiffon , fontcolor = dark , color = darkolivegreen3 ,style = filled, shape = record];label = "Ejes en Z"; ZDepartamento4empresa1Dato2_Z1 [label = "Dato2_Z1" width = 1.5 ];  
+ZDepartamento4empresa1Dato2_Z2 [label = "Dato2_Z2" width = 1.5 ];  
+ZDepartamento4empresa1Dato2_Z3 [label = "Dato2_Z3" width = 1.5 ];  
+ZDepartamento4empresa4Dato4_z1 [label = "Dato4_z1" width = 1.5 ];  
+ZDepartamento4empresa4Dato4_z2 [label = "Dato4_z2" width = 1.5 ];  
+NDepartamento4empresa1-> ZDepartamento4empresa1Dato2_Z1; 
+ZDepartamento4empresa1Dato2_Z1-> ZDepartamento4empresa1Dato2_Z2; 
+ZDepartamento4empresa1Dato2_Z2-> ZDepartamento4empresa1Dato2_Z3; 
+NDepartamento4empresa4-> ZDepartamento4empresa4Dato4_z1; 
+ZDepartamento4empresa4Dato4_z1-> ZDepartamento4empresa4Dato4_z2; 
+}}
