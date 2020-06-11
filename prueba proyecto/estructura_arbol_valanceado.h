@@ -413,13 +413,13 @@ void estructura_arbol_valanceado::generar_grafico() {
 
 
 	std::ofstream archivo;
-	archivo.open("estructura_arbol_balanceado.txt", std::ios::out);
+	archivo.open("Arbol_Balanceado.txt", std::ios::out);
 
 	archivo << texto;
 	archivo.close();
 
-	std::string sentencia = "dot -Tpng estructura_arbol_balanceado.txt -o estructura_arbol_balanceado.png";
-	std::string sentencia2 = "start estructura_arbol_balanceado.png";
+	std::string sentencia = "dot -Tpng Arbol_Balanceado.txt -o Arbol_Balanceado.png";
+	std::string sentencia2 = "start Arbol_Balanceado.png";
 	system(sentencia.c_str());
 	system(sentencia2.c_str());
 

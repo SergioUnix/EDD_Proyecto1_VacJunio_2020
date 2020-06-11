@@ -501,13 +501,13 @@ public:
 	void generar_txt() {
 		std::string texto = grafic();
 		std::ofstream archivo;
-		archivo.open("cubo.txt", std::ios::out);
+		archivo.open("Matriz.txt", std::ios::out);
 
 		archivo << texto;
 		archivo.close();
 
-		std::string sentencia = "dot -Tpng cubo.txt -o cubo.png";
-		std::string sentencia2 = "start cubo.png";
+		std::string sentencia = "dot -Tpng Matriz.txt -o Matriz.png";
+		std::string sentencia2 = "start Matriz.png";
 		system(sentencia.c_str());
 		system(sentencia2.c_str());
 
