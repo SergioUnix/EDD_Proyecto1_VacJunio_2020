@@ -281,11 +281,18 @@ public:
 	};
 	
 
+	string aMinuscula(string cadena) {
+		for (int i = 0; i < cadena.length(); i++) cadena[i] = tolower(cadena[i]);
+		return cadena;
+	}
 
 
 
-	void  insertar_elemento(string x, string y, T dato) {
 
+	void  insertar_elemento(string xx, string yy, T datorev) {
+		string x = aMinuscula(xx);
+		string y = aMinuscula(yy);
+		string dato = aMinuscula(datorev);
 		Nodo * nuevo = new Nodo(x, y, dato);
 		Nodo* NodoColumna = this->buscar_columna(x);
 		Nodo* NodoFila = this->buscar_fila(y);
@@ -396,7 +403,7 @@ public:
 
 					recoXZ = recoX->getZ_back();
 					while (recoXZ != 0) {
-						if (comodin_filaZ<0) { punteros_Z = punteros_Z + "N" + recoXZ->getX() + recoXZ->getY() + "-> Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato()  + "; \n";      comodin_filaZ += 1; 
+						if (comodin_filaZ<0) { punteros_Z = punteros_Z + "N" + recoXZ->getX() + recoXZ->getY() + "-> Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato()  + "[ arrowhead = \"empty\" color=green dir=\"both\" ]; \n";      comodin_filaZ += 1;
 						}
 						else {}
 
@@ -404,6 +411,7 @@ public:
 						Z = Z + "Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato()+ " [label = \"" + recoXZ->getDato() + "\" width = 1.5 ];  \n";
                    							if (recoXZ->getZ_back() != 0) {
 								punteros_Z = punteros_Z + "Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato() + "-> Z" + recoXZ->getZ_back()->getX() + recoXZ->getZ_back()->getY() + recoXZ->getZ_back()->getDato() + "; \n";
+								punteros_Z= punteros_Z + "Z" + recoXZ->getZ_back()->getX() + recoXZ->getZ_back()->getY() + recoXZ->getZ_back()->getDato() + "-> Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato() + "; \n";
 							}
 						recoXZ = recoXZ->getZ_back();
 						auxiliar = auxiliar + 1;
@@ -484,7 +492,7 @@ public:
 		std::string linea10 = "Mt -> " + primeroY + "[dir=\"both\"]; Mt -> " + primeroX + "[dir=\"both\"]; \n";
 		std::string linea11 = "{ rank = same; Mt;" + para_linea11 + "} \n";
 
-		std::string subgrafo = "subgraph cluster_0 {   style = filled; charset = latin1; bgcolor = black; color = white; node[fillcolor =lemonchiffon , fontcolor = dark , color = darkolivegreen3 ,style = filled, shape = record];label = \"Ejes en Z\"; ";
+		std::string subgrafo = "subgraph cluster_0 {   style = filled; charset = latin1; bgcolor = black; color = white; node[fillcolor =lemonchiffon , fontcolor = black , color = darkolivegreen3 ,style = filled, shape = record];label = \"Ejes en Z\"; ";
 
 		std::string total = linea1 + linea2 + linea3 + linea4 + linea5 + linea6 + linea7 + linea8 + linea9 + linea10 + linea11 + filas + punteros_fila+subgrafo + Z + punteros_Z +"}"+ "}";
 		return total;

@@ -6,6 +6,7 @@
 #include "estructura_cola.h"
 #include "estructura_lista_simple.h"
 #include "estructura_matriz.h"
+#include "estructura_arbol_valanceado.h"
 
 using namespace std;
 void menu() {
@@ -16,9 +17,9 @@ void menu() {
 
 	do {
 		cout << "<<<<<<  Menu de la Aplicacion  >>>>>>" << endl << endl;
-		cout << "1. Cargar Archivo" << endl;
-		cout << "2. Agregar Jugador " << endl;
-		cout << "3. JUGAR" << endl;
+		cout << "1. Opcion 1" << endl;
+		cout << "2. Opcion 2 " << endl;
+		cout << "3.  Opcion 3" << endl;
 		cout << "5. Reportes" << endl;
 		cout << "8.Salir " << endl << endl;
 		cout << "Ingresa Opcion : ";
@@ -30,7 +31,7 @@ void menu() {
 
 			break;
 		case 2: system("cls");
-			cout << "Introduzca el nombre del Jugador" << endl;
+			cout << "Introduzca el nombre " << endl;
 			cin >> usuario;
 
 			break;
@@ -142,27 +143,87 @@ int main()
 
 	//cout << " /////////////////////  prueba de matriz" << endl << endl;
 	estructura_matriz <string> *mat = new estructura_matriz<string>();
-	mat->insertar_elemento("Departamento1", "empresa1", "Dato1");
-	mat->insertar_elemento("Departamento2", "empresa2", "Dato2");
-	mat->insertar_elemento("Departamento3", "empresa3", "Dato3");
-	mat->insertar_elemento("Departamento4", "empresa4", "Dato4");
+	//mat->insertar_elemento("Departamento1", "empresa1", "Dato1");
+	//mat->insertar_elemento("Departamento2", "empresa2", "Dato2");
+//	mat->insertar_elemento("Departamento3", "empresa3", "Dato3");
+//	mat->insertar_elemento("Departamento4", "empresa4", "Dato4");
+//	mat->insertar_elemento("Departamento5", "empresa5", "Dato5");
+//	mat->insertar_elemento("Departamento6", "empresa6", "Dato6");
 
-	mat->insertar_elemento("Departamento4", "empresa4", "Dato4_z1");
-	mat->insertar_elemento("Departamento4", "empresa4", "Dato4_z2");
+//	mat->insertar_elemento("Departamento6", "empresa5", "Dato77");
+
+
+
+//	mat->insertar_elemento("Departamento4", "empresa4", "Dato4_z1");
+//	mat->insertar_elemento("Departamento4", "empresa4", "Dato4_z2");
 	
 
 
-	mat->insertar_elemento("Departamento4", "empresa1", "Dato2");
-	mat->insertar_elemento("Departamento4", "empresa1", "Dato2_Z1");
-	mat->insertar_elemento("Departamento4", "empresa1", "Dato2_Z2");
-	mat->insertar_elemento("Departamento4", "empresa1", "Dato2_Z3");
+//	mat->insertar_elemento("Departamento4", "empresa1", "Dato2");
+//	mat->insertar_elemento("Departamento4", "empresa1", "Dato2_Z1");
+//	mat->insertar_elemento("Departamento4", "empresa1", "Dato2_Z2");
+//	mat->insertar_elemento("Departamento4", "empresa1", "Dato2_Z3");
 	//
 
+	mat->insertar_elemento("SOLOLA", "ADIDAS", "PECO");
+
+	mat->insertar_elemento( "REU","adidas", "val");
+	mat->insertar_elemento( "HUEHUETENANGO","adidas", "Espino");
+	mat->insertar_elemento( "HUEHUETENANGO","ESTANCIA", "Rambo");
+	mat->insertar_elemento( "PETEN","BURGER", "pio");
+	mat->insertar_elemento("solola", "BURGER", "pi");
+	mat->insertar_elemento( "PETEN","CAMPERO", "ALI");
+	mat->insertar_elemento("reu", "BURGER", "pik");
+
+	//mat->insertar_elemento( "PETEN","MAC", "simon");
+//	mat->insertar_elemento( "REU","FIFA", "Ronaldo");
+//	mat->insertar_elemento( "REU","MAX", "Espino");
+//	mat->insertar_elemento( "SOLOLA","MAX", "pablo");
+
+
+
+
+
+
+
 	cout << "\n\n\n\n\n\n" << endl;
-	mat->generar_txt();
-	cout << mat->grafic() << endl << endl;
+	//mat->generar_txt();
+	//cout << mat->grafic() << endl << endl;
 
+	
+	
+	
+	
+	cout << "\n\n\n\n\n\n" << endl;
 
+	// Un árbol de enteros
+	estructura_arbol_valanceado Arbol;
+
+ 
+	cout << "Inserción de nodos en árbol  " << endl;
+	Arbol.Insertar(15);
+	Arbol.Insertar(4);
+	Arbol.Insertar(20);
+	Arbol.Insertar(3);
+	Arbol.Insertar(25);
+	Arbol.Insertar(6);
+	Arbol.Insertar(8);
+	Arbol.Insertar(9);
+	cout << "\n\n Genero grafico  " << endl;
+	Arbol.inOrder();
+	Arbol.generar_grafico();
+	Sleep(5000);
+
+	cout << "\n\n Elimino Datos " << endl;
+	Arbol.eliminar_dato(6);
+	Arbol.eliminar_dato(25);
+	Arbol.eliminar_dato(3);
+	cout << "\n\n Genero grafico  " << endl;
+	Arbol.inOrder();
+	Arbol.generar_grafico();
+	cout << "\n\n Busco Dato  " << endl;
+	cout << "Existe Dato :  " << Arbol.buscarDato(20) << "  <-----  Si fue 1 es true y si es 0 es false \n\n";
+	
 
 
 	system("pause");	

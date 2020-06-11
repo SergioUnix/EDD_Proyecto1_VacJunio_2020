@@ -149,6 +149,7 @@
     <ClCompile Include="Todo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="estructura_arbol_valanceado.h" />
     <ClInclude Include="estructura_cola.h" />
     <ClInclude Include="estructura_matriz.h" />
     <ClInclude Include="estructura_pila.h" />
