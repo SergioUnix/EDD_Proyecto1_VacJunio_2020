@@ -197,7 +197,7 @@ int main()
 	cout << "\n\n\n\n\n\n" << endl;
 
 	// Un árbol de enteros
-	estructura_arbol_valanceado Arbol;
+	estructura_arbol_valanceado<int> Arbol;
 
  
 	cout << "Inserción de nodos en árbol  " << endl;

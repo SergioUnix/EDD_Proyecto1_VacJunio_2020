@@ -7,21 +7,21 @@
 #include <stdlib.h>
 using namespace std;
 
-
+template <class T>
 class estructura_arbol_valanceado {
 
-
+	template <class T>
 	class Nodo {
 	public:
-		int Info;
+		T Info;
 		int FactorEquilibrio;
 
 
-		Nodo *Node_Izquierdo;
-		Nodo *Node_Derecho;
-		Nodo *Node_papa;
+		Nodo<T>* Node_Izquierdo;
+		Nodo<T> *Node_Derecho;
+		Nodo<T> *Node_papa;
 
-		Nodo(const int datos, Nodo *father = 0, Nodo *iquierdo = 0, Nodo *derecho = 0) {
+		Nodo(T datos, Nodo *father = 0, Nodo *iquierdo = 0, Nodo *derecho = 0) {
 			Node_Izquierdo = iquierdo;
 			Node_Derecho = derecho;
 
@@ -35,48 +35,48 @@ class estructura_arbol_valanceado {
 
 	};
 
-private:	
-	Nodo *root;
-	Nodo *node_presente;
-    enum { Tipo_Izquierdo, Tipo_Derecho };
+private:
+	Nodo<T> *root;
+	Nodo<T> *node_presente;
+	enum { Tipo_Izquierdo, Tipo_Derecho };
 public:
 	estructura_arbol_valanceado() : root(0), node_presente(0) {}
 	~estructura_arbol_valanceado() { limpiarArbol(root); }
 	std::string grafico = "";
 	std::string direcciones = "";
 	std::string  texto = "";
-	void Insertar(const int datos);
-	bool buscarDato(const int datos);
-	void eliminar_dato(const int datos);
-	bool verifico_vacio(Nodo *r) {
+	void Insertar(T datos);
+	bool buscarDato(T datos);
+	void eliminar_dato(T datos);
+	bool verifico_vacio(Nodo<T> *r) {
 		return r == 0;
 	}
-	bool EsHoja(Nodo *r) {
+	bool EsHoja(Nodo<T> *r) {
 		return !r->Node_Derecho && !r->Node_Izquierdo;
 	}
 	std::string  texto_grafic();
 	void generar_grafico();
 	void Raiz() { node_presente = root; }
-	void recorrido_grap(Nodo *node, std::string lado, std::string Node_papa);
-	void recorrido_inOrder(Nodo * node);
+	void recorrido_grap(Nodo<T> *node, std::string lado, std::string Node_papa);
+	void recorrido_inOrder(Nodo<T> * node);
 	void inOrder();
 
 
 
 private:
 
-	void equilibrio(Nodo *nodo, int, bool);
-	void rotacion_derecha_izquierda(Nodo* nodo);
-	void rotacion_derecha_derecha(Nodo* nodo);
-	void rot_simple_izquierda(Nodo* nodo);
-	void rot_simple_derecha(Nodo* nodo);
-	void limpiarArbol(Nodo* &);
-	
+	void equilibrio(Nodo<T> *nodo, int, bool);
+	void rotacion_derecha_izquierda(Nodo<T>* nodo);
+	void rotacion_derecha_derecha(Nodo<T>* nodo);
+	void rot_simple_izquierda(Nodo<T>* nodo);
+	void rot_simple_derecha(Nodo<T>* nodo);
+	void limpiarArbol(Nodo<T>* &);
+
 
 };
 
-
-void estructura_arbol_valanceado::limpiarArbol(Nodo* &nodo)
+template <class T>
+void estructura_arbol_valanceado<T>::limpiarArbol(Nodo<T>* &nodo)
 {
 	if (nodo != nullptr) {
 		limpiarArbol(nodo->Node_Izquierdo);
@@ -87,10 +87,10 @@ void estructura_arbol_valanceado::limpiarArbol(Nodo* &nodo)
 }
 
 
-
-void estructura_arbol_valanceado::Insertar(const int datos)
+template <class T>
+void estructura_arbol_valanceado<T>::Insertar(T datos)
 {
-	Nodo *Node_papa = 0;
+	Nodo<T> *Node_papa = 0;
 
 	cout << "Insertando : " << datos << endl;
 	node_presente = root;
@@ -105,23 +105,23 @@ void estructura_arbol_valanceado::Insertar(const int datos)
 	if (!verifico_vacio(node_presente)) return;
 
 
-	if (verifico_vacio(Node_papa)) root = new Nodo(datos);
+	if (verifico_vacio(Node_papa)) root = new Nodo<T>(datos);
 
 
 	else if (datos < Node_papa->Info) {
-		Node_papa->Node_Izquierdo = new Nodo(datos, Node_papa);
+		Node_papa->Node_Izquierdo = new Nodo<T>(datos, Node_papa);
 		equilibrio(Node_papa, Tipo_Izquierdo, true);
 	}
 
 
 	else if (datos > Node_papa->Info) {
-		Node_papa->Node_Derecho = new Nodo(datos, Node_papa);
+		Node_papa->Node_Derecho = new Nodo<T>(datos, Node_papa);
 		equilibrio(Node_papa, Tipo_Derecho, true);
 	}
 }
 
-
-void estructura_arbol_valanceado::equilibrio(Nodo *nodo, int rama, bool nuevo)
+template <class T>
+void estructura_arbol_valanceado<T>::equilibrio(Nodo<T> *nodo, int rama, bool nuevo)
 {
 	bool salir = false;
 
@@ -151,16 +151,16 @@ void estructura_arbol_valanceado::equilibrio(Nodo *nodo, int rama, bool nuevo)
 			nodo = nodo->Node_papa;
 	}
 }
-
-void estructura_arbol_valanceado::rotacion_derecha_derecha(Nodo* nodo)
+template <class T>
+void estructura_arbol_valanceado<T>::rotacion_derecha_derecha(Nodo<T>* nodo)
 {
 	cout << "rotacion_derecha_derecha" << endl;
-	Nodo *Node_papa = nodo->Node_papa;
-	Nodo *P = nodo;
-	Nodo *Q = P->Node_Izquierdo;
-	Nodo *R = Q->Node_Derecho;
-	Nodo *B = R->Node_Izquierdo;
-	Nodo *C = R->Node_Derecho;
+	Nodo<T> *Node_papa = nodo->Node_papa;
+	Nodo<T> *P = nodo;
+	Nodo<T> *Q = P->Node_Izquierdo;
+	Nodo<T> *R = Q->Node_Derecho;
+	Nodo<T> *B = R->Node_Izquierdo;
+	Nodo<T> *C = R->Node_Derecho;
 
 	if (Node_papa)
 		if (Node_papa->Node_Derecho == nodo) Node_papa->Node_Derecho = R;
@@ -185,16 +185,16 @@ void estructura_arbol_valanceado::rotacion_derecha_derecha(Nodo* nodo)
 	R->FactorEquilibrio = 0;
 }
 
-
-void estructura_arbol_valanceado::rotacion_derecha_izquierda(Nodo* nodo)
+template <class T>
+void estructura_arbol_valanceado<T>::rotacion_derecha_izquierda(Nodo<T>* nodo)
 {
 	cout << "rotacion_derecha_izquierda" << endl;
-	Nodo *Node_papa = nodo->Node_papa;
-	Nodo *P = nodo;
-	Nodo *Q = P->Node_Derecho;
-	Nodo *R = Q->Node_Izquierdo;
-	Nodo *B = R->Node_Izquierdo;
-	Nodo *C = R->Node_Derecho;
+	Nodo<T> *Node_papa = nodo->Node_papa;
+	Nodo<T> *P = nodo;
+	Nodo<T> *Q = P->Node_Derecho;
+	Nodo<T> *R = Q->Node_Izquierdo;
+	Nodo<T> *B = R->Node_Izquierdo;
+	Nodo<T> *C = R->Node_Derecho;
 
 	if (Node_papa)
 		if (Node_papa->Node_Derecho == nodo) Node_papa->Node_Derecho = R;
@@ -219,14 +219,14 @@ void estructura_arbol_valanceado::rotacion_derecha_izquierda(Nodo* nodo)
 	R->FactorEquilibrio = 0;
 }
 
-
-void estructura_arbol_valanceado::rot_simple_derecha(Nodo* nodo)
+template <class T>
+void estructura_arbol_valanceado<T>::rot_simple_derecha(Nodo<T>* nodo)
 {
 	cout << "rot_simple_derecha" << endl;
-	Nodo *Node_papa = nodo->Node_papa;
-	Nodo *P = nodo;
-	Nodo *Q = P->Node_Izquierdo;
-	Nodo *B = Q->Node_Derecho;
+	Nodo<T> *Node_papa = nodo->Node_papa;
+	Nodo<T> *P = nodo;
+	Nodo<T> *Q = P->Node_Izquierdo;
+	Nodo<T> *B = Q->Node_Derecho;
 	if (Node_papa)
 		if (Node_papa->Node_Derecho == P) Node_papa->Node_Derecho = Q;
 		else Node_papa->Node_Izquierdo = Q;
@@ -242,14 +242,14 @@ void estructura_arbol_valanceado::rot_simple_derecha(Nodo* nodo)
 	Q->FactorEquilibrio = 0;
 }
 
-
-void estructura_arbol_valanceado::rot_simple_izquierda(Nodo* nodo)
+template <class T>
+void estructura_arbol_valanceado<T>::rot_simple_izquierda(Nodo<T>* nodo)
 {
 	cout << "rot_simple_izquierda" << endl;
-	Nodo *Node_papa = nodo->Node_papa;
-	Nodo *P = nodo;
-	Nodo *Q = P->Node_Derecho;
-	Nodo *B = Q->Node_Izquierdo;
+	Nodo<T> *Node_papa = nodo->Node_papa;
+	Nodo<T> *P = nodo;
+	Nodo<T> *Q = P->Node_Derecho;
+	Nodo<T> *B = Q->Node_Izquierdo;
 
 	if (Node_papa)
 		if (Node_papa->Node_Derecho == P) Node_papa->Node_Derecho = Q;
@@ -271,7 +271,8 @@ void estructura_arbol_valanceado::rot_simple_izquierda(Nodo* nodo)
 }
 
 //Este recorrido InOrder se uso para la Tarea en Clase que dejo el ingeniro Espino
-void estructura_arbol_valanceado::recorrido_inOrder(Nodo * node) {
+template <class T>
+void estructura_arbol_valanceado<T>::recorrido_inOrder(Nodo<T> * node) {
 	if (!node) {
 		return;
 	}
@@ -279,82 +280,82 @@ void estructura_arbol_valanceado::recorrido_inOrder(Nodo * node) {
 	std::cout << std::to_string(node->Info) << " - "; // concateno los nodos
 	recorrido_inOrder(node->Node_Derecho);//Se va por la derecha
 }
-
-void estructura_arbol_valanceado::inOrder() {
+template <class T>
+void estructura_arbol_valanceado<T>::inOrder() {
 	recorrido_inOrder(root);
 	std::cout << "\n";
 
 }
 
 
-
-void estructura_arbol_valanceado::eliminar_dato(const int datos)
+template <class T>
+void estructura_arbol_valanceado<T>::eliminar_dato(T datos)
 {
-	Nodo *Node_papa = 0;
-	Nodo *nodo;
+	Nodo<T> *Node_papa = 0;
+	Nodo<T> *nodo;
 	int aux;
 
 	node_presente = root;
 
-	while (!verifico_vacio(node_presente)) 
+	while (!verifico_vacio(node_presente))
 	{
-		if (datos == node_presente->Info) 
+		if (datos == node_presente->Info)
 		{
-	    if (EsHoja(node_presente))
-		{
-		if (Node_papa)
-		if (Node_papa->Node_Derecho == node_presente) Node_papa->Node_Derecho = 0;
-		else if (Node_papa->Node_Izquierdo == node_presente) Node_papa->Node_Izquierdo = 0;
-		delete node_presente;
-		node_presente = 0;
+			if (EsHoja(node_presente))
+			{
+				if (Node_papa)
+					if (Node_papa->Node_Derecho == node_presente) Node_papa->Node_Derecho = 0;
+					else if (Node_papa->Node_Izquierdo == node_presente) Node_papa->Node_Izquierdo = 0;
+					delete node_presente;
+					node_presente = 0;
 
-		if ((Node_papa->FactorEquilibrio == 1 &&   Node_papa->Node_Derecho == node_presente ) ||
-		(Node_papa->FactorEquilibrio == -1 &&Node_papa->Node_Izquierdo == node_presente )) {
-		Node_papa->FactorEquilibrio = 0;
-		node_presente = Node_papa;
-		Node_papa = node_presente->Node_papa;
-		}
-		if (Node_papa)
-		if (Node_papa->Node_Derecho == node_presente) equilibrio(Node_papa, Tipo_Derecho, false);
-		else                         equilibrio(Node_papa, Tipo_Izquierdo, false);
-		return;
+					if ((Node_papa->FactorEquilibrio == 1 && Node_papa->Node_Derecho == node_presente) ||
+						(Node_papa->FactorEquilibrio == -1 && Node_papa->Node_Izquierdo == node_presente)) {
+						Node_papa->FactorEquilibrio = 0;
+						node_presente = Node_papa;
+						Node_papa = node_presente->Node_papa;
+					}
+					if (Node_papa)
+						if (Node_papa->Node_Derecho == node_presente) equilibrio(Node_papa, Tipo_Derecho, false);
+						else                         equilibrio(Node_papa, Tipo_Izquierdo, false);
+						return;
+			}
+			else {
+				Node_papa = node_presente;
+
+				if (node_presente->Node_Derecho) {
+					nodo = node_presente->Node_Derecho;
+					while (nodo->Node_Izquierdo) {
+						Node_papa = nodo;
+						nodo = nodo->Node_Izquierdo;
+					}
+				}
+
+				else {
+					nodo = node_presente->Node_Izquierdo;
+					while (nodo->Node_Derecho) {
+						Node_papa = nodo;
+						nodo = nodo->Node_Derecho;
+					}
+				}
+
+				aux = node_presente->Info;
+				node_presente->Info = nodo->Info;
+				nodo->Info = aux;
+				node_presente = nodo;
+			}
 		}
 		else {
-		Node_papa = node_presente;
-		
-		if (node_presente->Node_Derecho) {
-		nodo = node_presente->Node_Derecho;
-		while (nodo->Node_Izquierdo) {
-		Node_papa = nodo;
-		nodo = nodo->Node_Izquierdo;
-		}
-		}
-
-		else {
-		nodo = node_presente->Node_Izquierdo;
-		while (nodo->Node_Derecho) {
-		Node_papa = nodo;
-		nodo = nodo->Node_Derecho;
-		}
-		}
-
-		aux = node_presente->Info;
-		node_presente->Info = nodo->Info;
-		nodo->Info = aux;
-		node_presente = nodo;
-		}
-		}
-		else {
-		Node_papa = node_presente;
-		if (datos > node_presente->Info) node_presente = node_presente->Node_Derecho;
-		else if (datos < node_presente->Info) node_presente = node_presente->Node_Izquierdo;
+			Node_papa = node_presente;
+			if (datos > node_presente->Info) node_presente = node_presente->Node_Derecho;
+			else if (datos < node_presente->Info) node_presente = node_presente->Node_Izquierdo;
 		}
 	}
 }
 
 
-
-bool estructura_arbol_valanceado::buscarDato(const int datos)
+template <class T>
+bool estructura_arbol_valanceado<T>::buscarDato(T datos)
 {
 	node_presente = root;
 	while (!verifico_vacio(node_presente)) {
@@ -367,8 +368,8 @@ bool estructura_arbol_valanceado::buscarDato(const int datos)
 
 
 /////////////////////////   Crear txt de ghrapviz
-
-void estructura_arbol_valanceado::recorrido_grap(Nodo * node, string lado, string Node_papa) {
+template <class T>
+void estructura_arbol_valanceado<T>::recorrido_grap(Nodo<T> * node, string lado, string Node_papa) {
 	if (!node) {
 
 
@@ -396,8 +397,8 @@ void estructura_arbol_valanceado::recorrido_grap(Nodo * node, string lado, strin
 
 
 
-
-std::string  estructura_arbol_valanceado::texto_grafic() {
+template <class T>
+std::string  estructura_arbol_valanceado<T>::texto_grafic() {
 	grafico = "";
 	direcciones = "";
 	recorrido_grap(root, "root", "root");
@@ -407,8 +408,8 @@ std::string  estructura_arbol_valanceado::texto_grafic() {
 
 }
 
-
-void estructura_arbol_valanceado::generar_grafico() {
+template <class T>
+void estructura_arbol_valanceado<T>::generar_grafico() {
 	texto = texto_grafic();
 
 
@@ -426,3 +427,9 @@ void estructura_arbol_valanceado::generar_grafico() {
 
 
 }
+
+
+
+
+
+

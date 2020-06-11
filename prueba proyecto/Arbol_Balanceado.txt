@@ -1,0 +1,14 @@
+digraph grafica{ 
+rankdir=TB; 
+node[fillcolor =cyan , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+label = "Arbol Balanceado estructura_arbol_valanceado" ;
+4[ label ="<C0>|4|<C1>"]; 
+8[ label ="<C0>|8|<C1>"]; 
+9[ label ="<C0>|9|<C1>"]; 
+15[ label ="<C0>|15|<C1>"]; 
+20[ label ="<C0>|20|<C1>"]; 
+15:C0->8
+8:C1->9
+4:C1->15
+15:C1->20
+} 
