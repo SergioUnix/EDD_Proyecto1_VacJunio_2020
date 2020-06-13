@@ -1,8 +1,9 @@
 ﻿  Todo.cpp
-c:\users\admin\desktop\prueba proyecto\prueba proyecto\todo.cpp(15): warning C4101: 'nom': variable local sin referencia
-c:\users\admin\desktop\prueba proyecto\prueba proyecto\estructura_matriz.h(285): warning C4018: '<': no coinciden signed/unsigned
-  c:\users\admin\desktop\prueba proyecto\prueba proyecto\estructura_matriz.h(284): note: durante la compilación de la función miembro de plantilla de clase 'std::string estructura_matriz<std::string>::aMinuscula(std::string)'
-  c:\users\admin\desktop\prueba proyecto\prueba proyecto\estructura_matriz.h(293): note: vea la referencia a la creación de instancias de plantilla de función 'std::string estructura_matriz<std::string>::aMinuscula(std::string)' que se está compilando
-  c:\users\admin\desktop\prueba proyecto\prueba proyecto\todo.cpp(145): note: vea la referencia a la creación de instancias de plantilla de clase 'estructura_matriz<std::string>' que se está compilando
+c:\users\admin\desktop\prueba proyecto\prueba proyecto\estructura_arbol_valanceado.h(443): warning C4018: '<': no coinciden signed/unsigned
+c:\users\admin\desktop\prueba proyecto\prueba proyecto\todo.cpp(20): warning C4101: 'nom': variable local sin referencia
+c:\users\admin\desktop\prueba proyecto\prueba proyecto\estructura_matriz.h(373): warning C4018: '<': no coinciden signed/unsigned
+  c:\users\admin\desktop\prueba proyecto\prueba proyecto\estructura_matriz.h(372): note: durante la compilación de la función miembro de plantilla de clase 'std::string estructura_matriz<std::string>::aMinuscula(std::string)'
+  c:\users\admin\desktop\prueba proyecto\prueba proyecto\estructura_matriz.h(381): note: vea la referencia a la creación de instancias de plantilla de función 'std::string estructura_matriz<std::string>::aMinuscula(std::string)' que se está compilando
+  c:\users\admin\desktop\prueba proyecto\prueba proyecto\todo.cpp(14): note: vea la referencia a la creación de instancias de plantilla de clase 'estructura_matriz<std::string>' que se está compilando
   prueba proyecto.vcxproj -> C:\Users\ADMIN\Desktop\prueba proyecto\Debug\prueba proyecto.exe
   prueba proyecto.vcxproj -> C:\Users\ADMIN\Desktop\prueba proyecto\Debug\prueba proyecto.pdb (Full PDB)

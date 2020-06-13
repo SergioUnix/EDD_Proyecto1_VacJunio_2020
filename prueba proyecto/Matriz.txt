@@ -1,0 +1,67 @@
+digraph Sparce_Matrix { 
+node [shape=box]  
+Mt[ label = "Raiz Matrix", width = 1.5, style = filled, fillcolor = darkolivegreen3, group = 1 ];  
+/*nodos vacíos, necesarios para anular la ubicación de nodo predeterminada de graphiz  */ 
+ e0[ shape = point, width = 0 ];  
+e1[ shape = point, width = 0 ];   
+Uadi[label = "adi" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
+Ubur[label = "bur" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
+Ucam[label = "cam" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
+Uest[label = "est" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
+Uadi-> Ubur; 
+Ubur-> Uadi; 
+Ubur-> Ucam; 
+Ucam-> Ubur; 
+Ucam-> Uest; 
+Uest-> Ucam; 
+Ahuehuetenango[label = "huehuetenango" width = 1.5 style = filled, fillcolor = turquoise3, group =huehuetenango];  
+Apeten[label = "peten" width = 1.5 style = filled, fillcolor = turquoise3, group =peten];  
+Areu[label = "reu" width = 1.5 style = filled, fillcolor = turquoise3, group =reu];  
+Asolola[label = "solola" width = 1.5 style = filled, fillcolor = turquoise3, group =solola];  
+Ahuehuetenango-> Apeten; 
+Apeten-> Ahuehuetenango; 
+Apeten-> Areu; 
+Areu-> Apeten; 
+Areu-> Asolola; 
+Asolola-> Areu; 
+Mt -> Uadi[dir="both"]; Mt -> Ahuehuetenango[dir="both"]; 
+{ rank = same; Mt;Ahuehuetenango; Apeten; Areu; Asolola; } 
+Nhuehuetenangoadi [label = "espino" width = 1.5, group =huehuetenango ];  
+Nreuadi [label = "val" width = 1.5, group =reu ];  
+Nsololaadi [label = "peco" width = 1.5, group =solola ];  
+Npetenbur [label = "pio" width = 1.5, group =peten ];  
+Nreubur [label = "pik" width = 1.5, group =reu ];  
+Nsololabur [label = "pol" width = 1.5, group =solola ];  
+Npetencam [label = "ali" width = 1.5, group =peten ];  
+Nhuehuetenangoest [label = "rambo" width = 1.5, group =huehuetenango ];  
+Uadi-> Nhuehuetenangoadi[dir="both"]; 
+Ahuehuetenango-> Nhuehuetenangoadi[dir="both"];
+Nhuehuetenangoadi-> Nreuadi; 
+Nreuadi-> Nhuehuetenangoadi; 
+Areu-> Nreuadi[dir="both"];
+Nreuadi-> Nsololaadi; 
+Nsololaadi-> Nreuadi; 
+Asolola-> Nsololaadi[dir="both"];
+{ rank = same; Uadi;Nhuehuetenangoadi;Nreuadi;Nsololaadi;} 
+Ubur-> Npetenbur[dir="both"]; 
+Apeten-> Npetenbur[dir="both"];
+Npetenbur-> Nreubur; 
+Nreubur-> Npetenbur; 
+Nreubur-> Nreuadi; 
+Nreuadi-> Nreubur; 
+Nreubur-> Nsololabur; 
+Nsololabur-> Nreubur; 
+Nsololabur-> Nsololaadi; 
+Nsololaadi-> Nsololabur; 
+{ rank = same; Ubur;Npetenbur;Nreubur;Nsololabur;} 
+Ucam-> Npetencam[dir="both"]; 
+Npetencam-> Npetenbur; 
+Npetenbur-> Npetencam; 
+{ rank = same; Ucam;Npetencam;} 
+Uest-> Nhuehuetenangoest[dir="both"]; 
+Nhuehuetenangoest-> Nhuehuetenangoadi; 
+Nhuehuetenangoadi-> Nhuehuetenangoest; 
+{ rank = same; Uest;Nhuehuetenangoest;} 
+subgraph cluster_0 {   style = filled; charset = latin1; bgcolor = black; color = white; node[fillcolor =lemonchiffon , fontcolor = black , color = darkolivegreen3 ,style = filled, shape = record];label = "Ejes en Z"; Zreuburatras [label = "atras" width = 1.5 ];  
+Nreubur-> Zreuburatras[ arrowhead = "empty" color=green dir="both" ]; 
+}}

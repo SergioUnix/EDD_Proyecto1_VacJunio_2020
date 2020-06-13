@@ -1,5 +1,5 @@
 #pragma once
-
+#include "estructura_arbol_valanceado.h"
 
 template<class T>
 class estructura_matriz
@@ -7,7 +7,7 @@ class estructura_matriz
 
 	class Nodo {
 	public:
-		Nodo(string departamentoX, string empresaY, T x)
+		Nodo(string departamentoX, string empresaY, T x, string pas)
 		{
 			//Aca inicializo los punteros en null que es igual a cero tambien
 			this->next = 0;
@@ -20,6 +20,10 @@ class estructura_matriz
 			this->x = departamentoX;
 			this->y = empresaY;
 			this->dato = x;
+			this->pass = pas;
+			//para el arbol balanceado
+			this->activos_rentar = new estructura_arbol_valanceado<string>();
+
 		}
 
 		Nodo *getNext() { return next; }
@@ -40,15 +44,20 @@ class estructura_matriz
 		void setDato(T n) { dato = n; };
 		void setX(string n) { x = n; };
 		void setY(string n) { y = n; };
-
 		T getDato() { return dato; }
+		string getPass() { return pass; };
+
+		//para el arbol balaceado
+
 		
 	private:
 		Nodo *next;    Nodo *before;
 		Nodo *up;      Nodo *down;
 		Nodo *z_front; Nodo *z_back;
 		string x;    string y;
-		T dato;
+		T dato;  string pass;
+		//para el arbol balanceado
+		estructura_arbol_valanceado<string> *activos_rentar;
 
 	};
 
@@ -57,7 +66,7 @@ class estructura_matriz
 public:
 	estructura_matriz()
 	{
-		root = new Nodo("-1", "-1", "Root");
+		root = new Nodo("-1", "-1", "Root","");
 		ano = 0;
 		mes = 0;
 
@@ -69,7 +78,18 @@ public:
 	// Este metodo me compara dos strings pero los compara haciendolos cadena de char primero porque se utiliza el metodo strcpy_s 
 	// El cual me devuelve un int el cual me dice que orden alfabeticamente van los dos strings
 	// Este codigo es totalmente mio, 
-	int comparar(std::string a, std::string b) {
+	int comparar(std::string a22, std::string b22) {
+
+		string a = "";
+		a = a + a22[0];
+		a = a + a22[1];
+		a = a + a22[2];
+		string b = "";
+		b= b + b22[0];
+		b = b + b22[1];
+		b = b + b22[2];
+
+		//cout << " cadena a " << a << " cadena b " << b << endl;
 		int n1 = a.length();
 		int n2 = b.length();
 
@@ -98,7 +118,7 @@ public:
 
 		while (temp != 0)
 		{
-		if (temp->getY() == y) {
+		if (comparar(temp->getY(), y)==0) {
 				return temp;
 			}
 
@@ -111,7 +131,7 @@ public:
 	Nodo* buscar_columna(string x) {
 		Nodo* temp = this->root;
 		while (temp != 0) {
-			if (temp->getX() == x) {
+			if (comparar(temp->getX(), x) == 0) {
 				return temp;
 			}
 			temp = temp->getNext();
@@ -135,7 +155,7 @@ public:
 				return temp;
 
 			}
-			else if (comparar(temp->getX(),nuevo->getX()) >0) {
+			else if (comparar(temp->getX(),nuevo->getX()) ==1) {
 				bandera = true;
 				break;
 
@@ -172,7 +192,7 @@ public:
 				return temp;
 
 			}
-			else if (comparar(temp->getY(), nuevo->getY()) >0) {
+			else if (comparar(temp->getY(), nuevo->getY()) ==1) {
 				bandera = true;
 				break;
 
@@ -203,14 +223,14 @@ public:
 
 	Nodo* crear_columna(string x) {
 		Nodo* cabeza_columna = this->root;
-		Nodo* columna = this->insertar_ordenado_columna(new Nodo(x, "-1", ""), cabeza_columna);
+		Nodo* columna = this->insertar_ordenado_columna(new Nodo(x, "-1", "",""), cabeza_columna);
 
 		return columna;
 	}
 
 	Nodo* crear_fila(string y) {
 		Nodo* cabeza_fila = this->root;
-		Nodo* fila = this->insertar_ordenado_fila(new Nodo("-1", y, ""), cabeza_fila);
+		Nodo* fila = this->insertar_ordenado_fila(new Nodo("-1", y, "",""), cabeza_fila);
 
 		return fila;
 	}
@@ -222,13 +242,13 @@ public:
         Nodo*temporal = 0;
 
 		while (enX != 0) {
-			if (enX->getX() == NodoColumna->getX()) {
+			if (comparar(enX->getX(),NodoColumna->getX())==0) {
 				NodoCol = enX;
 				while (NodoCol != 0) {
 
-					if (NodoCol->getX() == nuevo->getX() && NodoCol->getY() == nuevo->getY()) {
+					if (comparar(NodoCol->getX(),nuevo->getX())==0 && comparar(NodoCol->getY(),nuevo->getY())==0) {
 						//Aca encontro la coordena del nodo, ahora inserto en Z
-						cout << " SE deberia de insertar en Z" << endl;
+					//	cout << " SE deberia de insertar en Z" << endl;
 						temporal = NodoCol;
 
 						//NodoCol->setZ_back(nuevo);
@@ -263,6 +283,74 @@ public:
 
 
 
+	//login
+
+	bool login(string xx, string yy, T datorev, string pas) {
+		string x = aMinuscula(xx);
+		string y = aMinuscula(yy);
+		string dato = aMinuscula(datorev);
+		string pasword = aMinuscula(pas);
+
+		Nodo* NodoCol = this->buscar_columna(x);
+		Nodo* NodoFila = this->buscar_fila(y);
+
+		Nodo*temporaldato = 0;
+		bool result = false;
+
+		if (NodoCol != 0 && NodoFila != 0) {
+		//	std::cout << "Existe la coordenada  " << std::endl;
+		
+			while (NodoCol != 0) {
+
+				if (comparar(NodoCol->getX(),x)==0 && comparar(NodoCol->getY(),y)==0) {
+					temporaldato = NodoCol;
+
+					while (temporaldato != 0) {
+						if (temporaldato != 0) {
+							
+							//aca verifico si existe el dato
+							if (comparar(temporaldato->getDato(),dato) == 0 && comparar(temporaldato->getPass(),pasword) ==0 ) {
+							//	std::cout << "Se encontro el if del true en el while  " << std::endl;
+								result = true;
+								return true;
+								break;
+							}
+							
+						}
+						else {
+							break;
+						};
+             temporaldato = temporaldato->getZ_back();
+
+					};
+
+
+
+
+					break;
+				}
+				NodoCol = NodoCol->getDown();
+
+
+
+
+
+
+			}
+		}
+		return result;
+
+
+	};
+
+
+
+
+
+
+
+
+
 	//Verifico si existen datos en esa coordenada , esto es para ingresar en Z
 	//si encuentra que hay un nodo en esa coordenada (Departamento, Empresa)  entonces devuelve un true que en consola seria un 1
 	//sino lo encuentra devuelve un false que en consola seria un 0
@@ -272,7 +360,7 @@ public:
 		//Nodo* temp = this->root;
 		Nodo*NodoCol = NodoColumna;
 		while (NodoCol != 0) {
-			if (NodoCol->getX() == nuevo->getX() && NodoCol->getY() == nuevo->getY()) {
+			if (comparar(NodoCol->getX(), nuevo->getX()) == 0 && comparar(NodoCol->getY(), nuevo->getY()) == 0 ) {
 				result = true;
 			}
 			NodoCol = NodoCol->getDown();
@@ -289,16 +377,18 @@ public:
 
 
 
-	void  insertar_elemento(string xx, string yy, T datorev) {
+	void  insertar_elemento(string xx, string yy, T datorev, string pas) {
 		string x = aMinuscula(xx);
 		string y = aMinuscula(yy);
 		string dato = aMinuscula(datorev);
-		Nodo * nuevo = new Nodo(x, y, dato);
+        string pasword = aMinuscula(pas);
+
+		Nodo * nuevo = new Nodo(x, y, dato, pasword);
 		Nodo* NodoColumna = this->buscar_columna(x);
 		Nodo* NodoFila = this->buscar_fila(y);
 
 		if (NodoColumna == 0 && NodoFila == 0) {
-			     std::cout<< "Caso1"<<std::endl; //Solo me sirve para testear en que caso cae
+			 //    std::cout<< "Caso1"<<std::endl; //Solo me sirve para testear en que caso cae
 			NodoColumna = this->crear_columna(x);
 			//cout << NodoColumna->getX()<<" "<<NodoColumna->getX()<<endl;
 			NodoFila = this->crear_fila(y);
@@ -309,7 +399,7 @@ public:
 
 		}
 		else if (NodoColumna == 0 && NodoFila != 0) {
-			   std::cout<< "Caso2"<<std::endl;   //Testeo nada mas
+			//   std::cout<< "Caso2"<<std::endl;   //Testeo nada mas
 			NodoColumna = this->crear_columna(x);
 			nuevo = this->insertar_ordenado_columna(nuevo, NodoFila);
 			nuevo = this->insertar_ordenado_fila(nuevo, NodoColumna);
@@ -317,7 +407,7 @@ public:
 
 		}
 		else if (NodoColumna != 0 && NodoFila == 0) {
-		    std::cout<< "Caso3"<<std::endl;  //Verifico en que caso cae
+		  //  std::cout<< "Caso3"<<std::endl;  //Verifico en que caso cae
 			NodoFila = this->crear_fila(y);
 			nuevo = this->insertar_ordenado_columna(nuevo, NodoFila);
 			nuevo = this->insertar_ordenado_fila(nuevo, NodoColumna);
@@ -325,7 +415,7 @@ public:
 
 		}
 		else if (NodoColumna != 0 && NodoFila != 0) {
-			std::cout<< "Caso4"<<std::endl;
+		//	std::cout<< "Caso4"<<std::endl;
 			//cout << NodoColumna->getX()<<" "<<NodoColumna->getDown()->getY()<<"  "<<NodoColumna->getDown()->getX()<<NodoFila->getDown()->getDato() <<endl;
 			//cout << NodoFila->getY()<<" "<<NodoFila->getNext()->getX()<<"  "<<NodoFila->getNext()->getY()<<NodoFila->getNext()->getDato()<<endl;
 
@@ -336,7 +426,7 @@ public:
 			else {
 
 			
-				cout << "Se repitio en el mismo Nodo  " << endl;
+			//	cout << "Se repitio en el mismo Nodo  " << endl;
 				insertar_Z(nuevo, NodoColumna, NodoFila);
 			}
 
