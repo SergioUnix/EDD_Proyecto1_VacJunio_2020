@@ -1,20 +1,12 @@
 digraph grafica{ 
 rankdir=TB; 
 node[fillcolor =cyan , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
-label = "Arbol Balanceado estructura_arbol_valanceado" ;
-ariel[ label ="<C0>|ariel|<C1>"]; 
-bari[ label ="<C0>|bari|<C1>"]; 
-daniel[ label ="<C0>|daniel|<C1>"]; 
-maicol[ label ="<C0>|maicol|<C1>"]; 
-papa[ label ="<C0>|papa|<C1>"]; 
-sonso[ label ="<C0>|sonso|<C1>"]; 
-tolador[ label ="<C0>|tolador|<C1>"]; 
-zorro[ label ="<C0>|zorro|<C1>"]; 
-bari:C0->ariel
-maicol:C0->bari
-bari:C1->daniel
-sonso:C0->papa
-maicol:C1->sonso
-zorro:C0->tolador
-sonso:C1->zorro
+label = "Arbol Balanceado " ;
+gcg24cz195mb116[ label ="<C0>|edificio1|<C1>"]; 
+kib30jd158qq167[ label ="<C0>|edificio2|<C1>"]; 
+lty33vf158nm183[ label ="<C0>|edificio3|<C1>"]; 
+piw63pd141px127[ label ="<C0>|artes plasctica|<C1>"]; 
+kib30jd158qq167:C0->gcg24cz195mb116
+kib30jd158qq167:C1->lty33vf158nm183
+lty33vf158nm183:C1->piw63pd141px127
 } 

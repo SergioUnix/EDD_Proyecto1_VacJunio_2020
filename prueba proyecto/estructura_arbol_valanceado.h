@@ -14,6 +14,8 @@ class estructura_arbol_valanceado {
 	class Nodo {
 	public:
 		T Info;
+		string nombre;
+		string descripcion;
 		int FactorEquilibrio;
 
 
@@ -21,12 +23,14 @@ class estructura_arbol_valanceado {
 		Nodo<T> *Node_Derecho;
 		Nodo<T> *Node_papa;
 
-		Nodo(T datos, Nodo *father = 0, Nodo *iquierdo = 0, Nodo *derecho = 0) {
+		Nodo(T datos,string nom, string des, Nodo *father = 0, Nodo *iquierdo = 0, Nodo *derecho = 0) {
 			Node_Izquierdo = iquierdo;
 			Node_Derecho = derecho;
 
 			FactorEquilibrio = 0;
 			Info = datos;
+			nombre = nom;
+			descripcion = des;
 			Node_papa = father;
 
 		}
@@ -45,8 +49,10 @@ public:
 	std::string grafico = "";
 	std::string direcciones = "";
 	std::string  texto = "";
-	void Insertar(T datos);
+	void Insertar(T datos, string nom,string des);
 	bool buscarDato(T datos);
+	void actualizar(string datos, string des);
+
 	void eliminar_dato(T datos);
 	bool verifico_vacio(Nodo<T> *r) {
 		return r == 0;
@@ -90,7 +96,7 @@ void estructura_arbol_valanceado<T>::limpiarArbol(Nodo<T>* &nodo)
 
 
 template <class T>
-void estructura_arbol_valanceado<T>::Insertar(T datos)
+void estructura_arbol_valanceado<T>::Insertar(T datos, string nom, string des)
 {
 	Nodo<T> *Node_papa = 0;
 
@@ -107,17 +113,17 @@ void estructura_arbol_valanceado<T>::Insertar(T datos)
 	if (!verifico_vacio(node_presente)) return;
 
 
-	if (verifico_vacio(Node_papa)) root = new Nodo<T>(datos);
+	if (verifico_vacio(Node_papa)) root = new Nodo<T>(datos,nom,des);
 
 
 	else if (datos < Node_papa->Info) {
-		Node_papa->Node_Izquierdo = new Nodo<T>(datos, Node_papa);
+		Node_papa->Node_Izquierdo = new Nodo<T>(datos,nom,des, Node_papa);
 		equilibrio(Node_papa, Tipo_Izquierdo, true);
 	}
 
 
 	else if (datos > Node_papa->Info) {
-		Node_papa->Node_Derecho = new Nodo<T>(datos, Node_papa);
+		Node_papa->Node_Derecho = new Nodo<T>(datos,nom,des Node_papa);
 		equilibrio(Node_papa, Tipo_Derecho, true);
 	}
 }
@@ -145,9 +151,12 @@ int estructura_arbol_valanceado<string>::comparar(std::string a, std::string b) 
 
 //Especificamente para strings
 template <>
-void estructura_arbol_valanceado<string>::Insertar(string datosi)
+void estructura_arbol_valanceado<string>::Insertar(string datosi,string nom,string des)
 {
 	string datos = aMinuscula(datosi);
+	string nomb = aMinuscula(nom);
+	string descri = aMinuscula(des);
+
 	Nodo<string> *Node_papa = 0;
 
 	//cout << "Insertando cadena : " << datos << endl;
@@ -163,17 +172,17 @@ void estructura_arbol_valanceado<string>::Insertar(string datosi)
 	if (!verifico_vacio(node_presente)) return;
 
 
-	if (verifico_vacio(Node_papa)) root = new Nodo<string>(datos);
+	if (verifico_vacio(Node_papa)) root = new Nodo<string>(datos, nomb,descri);
 
 
 	else if (comparar(datos, Node_papa->Info) == -1) {
-		Node_papa->Node_Izquierdo = new Nodo<string>(datos, Node_papa);
+		Node_papa->Node_Izquierdo = new Nodo<string>(datos,nomb,descri, Node_papa);
 		equilibrio(Node_papa, Tipo_Izquierdo, true);
 	}
 
 
 	else if (comparar(datos, Node_papa->Info) == 1) {
-		Node_papa->Node_Derecho = new Nodo<string>(datos, Node_papa);
+		Node_papa->Node_Derecho = new Nodo<string>(datos,nomb,descri ,Node_papa);
 		equilibrio(Node_papa, Tipo_Derecho, true);
 	}
 }
@@ -359,7 +368,7 @@ void estructura_arbol_valanceado<string>::recorrido_inOrder(Nodo<string> * node)
 		return;
 	}
 	recorrido_inOrder(node->Node_Izquierdo); //se va por la Izquierda
-	std::cout << node->Info << " - "; // concateno los nodos
+	std::cout << "ID: " << node->Info << " ; Nombre :"<< node->nombre<<" Descripcion: "<<node->descripcion << endl; // concateno los nodos
 	recorrido_inOrder(node->Node_Derecho);//Se va por la derecha
 }
 
@@ -539,6 +548,22 @@ bool estructura_arbol_valanceado<string>::buscarDato(string datos)
 }
 
 
+template <>
+void estructura_arbol_valanceado<string>::actualizar(string datos, string des)
+{
+	node_presente = root;
+	while (!verifico_vacio(node_presente)) {
+		if (comparar(datos, node_presente->Info) == 0) { node_presente->descripcion = des; cout << "Se actualizo la descripcion " << endl; 
+		cout << "ID : " << node_presente->Info << " Nombre : " << node_presente->nombre << " Descripcion :" << node_presente->descripcion << endl;
+		return;
+		}
+		else if (comparar(datos, node_presente->Info) == 1) node_presente = node_presente->Node_Derecho;
+		else if (comparar(datos, node_presente->Info) == -1) node_presente = node_presente->Node_Izquierdo;
+	}
+	return;
+}
+
+
 /////////////////////////   Crear txt de ghrapviz
 template <class T>
 void estructura_arbol_valanceado<T>::recorrido_grap(Nodo<T> * node, string lado, string Node_papa) {
@@ -581,7 +606,7 @@ void estructura_arbol_valanceado<string>::recorrido_grap(Nodo<string> * node, st
 	recorrido_grap(node->Node_Izquierdo, "0", node->Info); //se va por la Izquierda
 
 	if (lado != "root"&& Node_papa != "root") { direcciones = direcciones + Node_papa + ":C" + lado + "->" + node->Info + "\n"; } ////if que guarda las direcciones de los nodos
-	grafico = grafico +node->Info + "[ label =\"<C0>|" + node->Info + "|<C1>\"]; \n"; // concateno los nodos
+	grafico = grafico +node->Info + "[ label =\"<C0>|" + node->nombre + "|<C1>\"]; \n"; // concateno los nodos
 
 	recorrido_grap(node->Node_Derecho, "1", node->Info);//Se va por la derecha
 
@@ -599,7 +624,7 @@ std::string  estructura_arbol_valanceado<T>::texto_grafic() {
 	grafico = "";
 	direcciones = "";
 	recorrido_grap(root, "root", "root");
-	string linea1 = "digraph grafica{ \nrankdir=TB; \nnode[fillcolor =cyan , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];\nlabel = \"Arbol Balanceado estructura_arbol_valanceado\" ;\n";
+	string linea1 = "digraph grafica{ \nrankdir=TB; \nnode[fillcolor =cyan , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];\nlabel = \"Arbol Balanceado \" ;\n";
 	return linea1 + grafico + direcciones + "} \n";
 	std::cout << std::endl;
 

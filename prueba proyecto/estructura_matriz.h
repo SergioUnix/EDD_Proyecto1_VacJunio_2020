@@ -48,7 +48,7 @@ class estructura_matriz
 		string getPass() { return pass; };
 
 		//para el arbol balaceado
-
+		estructura_arbol_valanceado<string> *getAVL() {return activos_rentar;};
 		
 	private:
 		Nodo *next;    Nodo *before;
@@ -104,7 +104,98 @@ public:
 
 
 
+	
+estructura_arbol_valanceado<string> * getArbol(string xx, string yy, T datorev, string pas) {
+			string x = aMinuscula(xx);
+			string y = aMinuscula(yy);
+			string dato = aMinuscula(datorev);
+			string pasword = aMinuscula(pas);
 
+			Nodo* NodoCol = this->buscar_columna(x);
+			Nodo* NodoFila = this->buscar_fila(y);
+
+			Nodo*temporaldato = 0;
+			bool result = false;
+
+			if (NodoCol != 0 && NodoFila != 0) {
+				//	std::cout << "Existe la coordenada  " << std::endl;
+
+				while (NodoCol != 0) {
+
+					if (comparar(NodoCol->getX(), x) == 0 && comparar(NodoCol->getY(), y) == 0) {
+						temporaldato = NodoCol;
+
+						while (temporaldato != 0) {
+							if (temporaldato != 0) {
+
+								//aca verifico si existe el dato
+								if (comparar(temporaldato->getDato(), dato) == 0 && comparar(temporaldato->getPass(), pasword) == 0) {
+									//	std::cout << "Se encontro el if del true en el while  " << std::endl;
+									result = true;
+
+									return temporaldato->getAVL();
+									break;
+								}
+
+							}
+							else {
+								break;
+							};
+							temporaldato = temporaldato->getZ_back();
+
+						};
+
+
+
+
+						break;
+					}
+					NodoCol = NodoCol->getDown();
+
+
+
+
+
+
+				}
+			}
+			return 0;
+
+
+		};
+
+
+////////////////////////  ///////////////////////////Mostrar Catalogo
+void catalogo(string nombre,string pass) {
+	Nodo* enX = this->root->getNext();
+	//Nodo* enY = this->root;
+	Nodo* NodoCol = 0;
+	Nodo*temporal = 0;
+
+	while (enX != 0) {
+		NodoCol = enX;
+		while (NodoCol != 0) {
+			temporal = NodoCol->getZ_back();
+			//if (NodoCol->getDato()!=nombre  && NodoCol->getPass()!=pass) {
+			if (NodoCol->getY() != "-1") {
+				NodoCol->getAVL()->inOrder();
+			}
+			while (temporal != 0) {
+			
+				if (temporal != 0) {
+					//if (comparar(NodoCol->getDato(), nombre) != 0 && comparar(NodoCol->getPass(), pass) != 0) {
+						temporal->getAVL()->inOrder();
+					//}
+					temporal = temporal->getZ_back();
+				}else {	break;	};
+			};
+			
+			NodoCol = NodoCol->getDown();
+		}
+
+		enX = enX->getNext();
+	}
+};
 
 
 

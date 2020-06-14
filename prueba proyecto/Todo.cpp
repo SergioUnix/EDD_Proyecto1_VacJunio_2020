@@ -1,7 +1,10 @@
 #include <iostream>
 #include <conio.h>
+#include <stdio.h>      /* printf, scanf, puts, NULL */
 #include <string.h>
 #include <windows.h>
+#include <stdlib.h>
+#include <time.h>       /* time */
 #include "estructura_pila.h"
 #include "estructura_cola.h"
 #include "estructura_lista_simple.h"
@@ -10,199 +13,13 @@
 
 using namespace std;
 
+
 //matriz de toda la aplicacion
 estructura_matriz <string> *Users = new estructura_matriz<string>();
 
-
-void menu() {
-
-	int  opcion, contador = 0, rep;
-	char nom[30], usuario[30];
-	//bool veri;
-
-	do {
-		cout << "<<<<<<  Menu de la Aplicacion  >>>>>>" << endl << endl;
-		cout << "1. Opcion 1" << endl;
-		cout << "2. Opcion 2 " << endl;
-		cout << "3.  Opcion 3" << endl;
-		cout << "5. Reportes" << endl;
-		cout << "8.Salir " << endl << endl;
-		cout << "Ingresa Opcion : ";
-		cin >> opcion;
-
-		switch (opcion) {
-		case 1:  system("cls");
-			cout << "Datos Cargados" << endl;
-
-			break;
-		case 2: system("cls");
-			cout << "Introduzca el nombre " << endl;
-			cin >> usuario;
-
-			break;
-
-		case 3:
-			
-			break;
-		case 5:    system("cls");
-			do {
-				cout << "--------   Seleccionar Reporte    -----------" << endl;
-				cout << "1. Reporte 1 " << endl;
-				cout << "2. Reporte 2" << endl;
-				cout << "3. Reporte 3" << endl;
-				cout << "4. Reporte 4" << endl;
-				cout << "5. Reporte 5" << endl;
-				cout << "6. Reporte 6" << endl;
-				cout << "7. Reporte 7" << endl;
-				cout << "8. Reporte 8" << endl;
-				cout << "9. Salir del SubMenu" << endl << endl;
-				cout << "Ingresar Opcion : " << endl;
-				cin >> rep;
-				switch (rep) {
-				case 1:
-					
-					break;
-				case 2:
-					
-					break;
-				case 3:
-					
-					break;
-				case 4:
-					
-					break;
-				case 5:
-					break;
-				case 7:  
-					break;
-				case 8:
-					break;
-				}
-				system("cls");
-			} while (rep != 9);
-			cout << "\n";
-			system("pause");
-
-
-			break;
-		case 6:
-
-			cout << "\n";
-			system("pause");
-			break;
-		case 7: cout << "mostrar el arbol\n\n";
-
-			cout << "\n";
-			system("pause");
-		}
-		system("cls");
-	} while (opcion != 8);
-}
-
-
-
-void login() {
-
-	int  opcion, contador = 0, rep;
-	char nombre_login[30], pass_login[30];
-	char departamento_login[30], empresa_login[30];
-	//bool veri;
-
-	do {
-		cout << "<<<<<<  Bienvenidos a la Aplicacion  >>>>>>" << endl << endl;
-		cout << "1. Loguearse " << endl;
-		cout << "2. Salir " << endl << endl;
-		cout << "Ingresa Opcion : ";
-		cin >> opcion;
-
-		switch (opcion) {
-		case 1:  system("cls");
-			cout << "<<<<<<  Ingresar Datos del Usuario  >>>>>>" << endl << endl;
-			cout << "Ingresar el Nombre : " << endl;
-			cin >> nombre_login;
-			cout << "Ingresar el Password : " << endl;
-			cin >> pass_login;
-			cout << "Ingresar el Departamento :  " << endl;
-			cin >> departamento_login;
-			cout << "Ingresara la Empresa : " << endl;
-			cin >> empresa_login;
-
-			break;
-		case 2: system("cls");
-			
-
-
-
-
-			
-
-			break;
-
-		case 3:
-
-			break;
-		case 5:    system("cls");
-			do {
-				cout << "--------   Seleccionar Reporte    -----------" << endl;
-				cout << "1. Reporte 1 " << endl;
-				cout << "2. Reporte 2" << endl;
-				cout << "3. Reporte 3" << endl;
-				cout << "4. Reporte 4" << endl;
-				cout << "5. Reporte 5" << endl;
-				cout << "6. Reporte 6" << endl;
-				cout << "7. Reporte 7" << endl;
-				cout << "8. Reporte 8" << endl;
-				cout << "9. Salir del SubMenu" << endl << endl;
-				cout << "Ingresar Opcion : " << endl;
-				cin >> rep;
-				switch (rep) {
-				case 1:
-
-					break;
-				case 2:
-
-					break;
-				case 3:
-
-					break;
-				case 4:
-
-					break;
-				case 5:
-					break;
-				case 7:
-					break;
-				case 8:
-					break;
-				}
-				system("cls");
-			} while (rep != 9);
-			cout << "\n";
-			system("pause");
-
-
-			break;
-		case 6:
-
-			cout << "\n";
-			system("pause");
-			break;
-		case 7: cout << "mostrar el arbol\n\n";
-
-			cout << "\n";
-			system("pause");
-		}
-		system("cls");
-	} while (opcion != 8);
-}
-
-
-
-
-
-
-
-
+//string usuario_logueado = "Madelyn";string pass_logueado = "123456";string departamento_logueado = "Guatemala";string empresa_logueado = "Profutbol";
+string usuario_logueado = "Ariel"; string pass_logueado = "123456"; string departamento_logueado = "Jutiapa"; string empresa_logueado = "Campero";
+//string usuario_logueado = "Sergio"; string pass_logueado = "123456"; string departamento_logueado = "Zacapa"; string empresa_logueado = "Despensa";
 
 
 // Este metodo me compara dos strings pero los compara haciendolos cadena de char primero porque se utiliza el metodo strcpy_s 
@@ -223,6 +40,308 @@ int comparar(std::string a, std::string b) {
 
 
 
+string alfanumerico() {
+	char numeros[26] = { 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
+	string codigo_random = "";
+	int numeric1, numeric2, numeric3;
+	/* numeros random */
+	srand(time(NULL));
+	numeric1 = 10 + rand() % (98 - 10); //2
+	numeric2 = 101 + rand() % (198 - 101);//3
+	numeric3 = 101 + rand() % (298 - 201);//3
+	codigo_random = codigo_random + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] +  to_string(numeric1)+numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + to_string(numeric2) + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + to_string(numeric3);
+	//cout<< " numero : " << codigo_random << endl;
+	return codigo_random;
+}
+
+
+
+
+
+// Menu de Administrador 
+void menu_admin() {
+
+	int  opcion, contador = 0, rep;
+	char nombre[30], pass[30],departamento[30],empresa[30];
+	//bool veri;
+
+	do {
+		system("cls");
+		cout << "<<<<<<  Menu de la Aplicacion  >>>>>>" << endl << endl;
+		cout << "1. Registrar Usuario" << endl;
+		cout << "2. Reporte Matriz Dispersa " << endl;
+		cout << "3. Reporte Activos Disponibles de un Departamento" << endl;
+		cout << "4. Reporte Activos Disponibles de una empresa" << endl;
+		cout << "5. Reporte Transacciones" << endl;
+		cout << "6. Reporte Activos de un Usuario" << endl;
+		cout << "7. Activos rentados por un Usuario" << endl;
+		cout << "8. Ordenar Transacciones" << endl;
+		cout << "9. Cerrar Sesion " << endl << endl;
+		cout << "Ingresa Opcion : ";
+		cin >> opcion;
+
+		switch (opcion) {
+		case 1:  system("cls");
+			cout << "<<<<<<  Ingresar Datos del Usuario  >>>>>>" << endl << endl;
+			cout << "Ingresar el Nombre : " << endl;
+			cin >> nombre;
+			cout << "Ingresar el Password : " << endl;
+			cin >> pass;
+			cout << "Ingresar el Departamento :  " << endl;
+			cin >> departamento;
+			cout << "Ingresara la Empresa : " << endl;
+			cin >> empresa;
+			if (Users->login(departamento, empresa, nombre, pass)) {
+				system("cls");
+				cout << "Usuario Ya Existe : " << endl;  system("pause");
+			}
+			else {
+				Users->insertar_elemento(departamento, empresa, nombre, pass);
+				system("cls");
+				cout << "Usuario Registrado Exitosamente : " << endl;  system("pause");
+			}
+
+
+			break;
+		case 2: system("cls");
+			Users->generar_txt();
+			break;
+		case 3:			
+			break;
+		case 5:    system("cls");
+			break;
+		case 6:
+			cout << "\n";
+			system("pause");
+			break;
+		case 7: cout << "mostrar el arbol\n\n";
+
+			cout << "\n";
+			system("pause");
+		}
+		system("cls");
+	} while (opcion != 9);
+}
+
+
+
+//////////////////////////////////////////////////////Menu para usuarios normales
+
+void menu_usuario() {
+
+	int  opcion, contador = 0, rep;
+	char nom[30], usuario[30],descripcion[30],id[30];
+	char activo[30], dias[30], nom_activo[30];
+	Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(), "edific", "jajajajafdsa");
+	system("pause");
+	Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(), "edificio", "nifdsnguna");
+	system("pause");
+	Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(), "edificiodsa", "ffffy");
+	system("pause");
+	do {
+		system("cls");
+		cout << "<<<<<<  Menu de la Aplicacion  >>>>>>" << "       Bienvenido :" << usuario_logueado << endl << endl;
+		cout << "1. Agregar Activo" << endl;
+		cout << "2. Eliminar Activo" << endl;
+		cout << "3. Modificar Activo" << endl;
+		cout << "4. Renta Activo" << endl;
+		cout << "5. Activos Rentados" << endl;
+		cout << "6. Mis Activos Rentados" << endl;
+		cout << "7. Cerrar Sesion " << endl << endl;
+		cout << "Ingresa Opcion : ";
+		cin >> opcion;
+		
+		switch (opcion) {
+		case 1:  system("cls");
+
+			cout << "Ingresar el Nombre : " << endl;
+			cin.ignore();
+			cin.getline(nom_activo, 30, '\n');
+			cout << "Ingresar Descripcion " << endl;
+			cin.getline(descripcion, 30, '\n');
+
+
+		Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(),nom_activo,descripcion);
+		Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->generar_grafico();
+		//	ArbolSt.Insertar("aklskf142", "edificio1", "este es un inmueble");
+
+
+			break;
+		case 2: system("cls");
+			system("cls");
+			cout << "<<<<<<<<<<<<<< Muestra de Activos Disponibles >>>>>>>>>>>>>" << endl;
+			Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->inOrder();
+			cout << "\nIngresar Id del activo a eliminar " << endl;
+			cin.ignore();
+			cin.getline(id, 30, '\n');
+			cout << "Eliminando Activo " << endl;
+			Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->eliminar_dato(std::string(id));
+			Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->generar_grafico();
+			system("pause");
+			break;
+		case 3:system("cls");
+			cout << "Activos Disponibles a Modificar " << endl;
+			Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->inOrder();
+			cout << "\nIngresar Id del activo a Modificar " << endl;
+			cin.ignore();
+			cin.getline(id, 30, '\n');
+			cout << "\nNueva Descripcion :" << endl;
+			cin.getline(descripcion, 30, '\n');
+			Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->actualizar(std::string(id),std::string(descripcion));
+		//	cout << "Modificando Activo Activo " << endl;
+
+			system("pause");
+			break;
+		case 4:    system("cls");
+
+
+			do {
+				cout << "--------   Catalogo de Activos   -----------" << endl;
+				Users->catalogo(usuario_logueado,pass_logueado);
+				
+				cout << "\n\n1. Rentar Activo " << endl;
+				cout << "2. Salir del SubMenu" << endl << endl;
+				cout << "Ingresar Opcion : " << endl;
+				cin >> rep;
+				switch (rep) {
+				case 1:
+					cout << "Ingresar Activo a Rentar  " << endl;
+					cin.ignore();
+					cin.getline(activo, 30, '\n');
+
+					cout << "Mostrar Activo a modificar , graficar el cubo para ver " << endl;
+					Users->generar_txt();
+
+					cout << "Ingresar Dias por Rentar  " << endl;
+					cin.getline(dias, 30, '\n');
+
+					break;
+			}
+				system("cls");
+			} while (rep != 2);
+			cout << "\n";
+			system("pause");
+
+
+			break;
+		case 5: system("cls");
+
+
+			do {
+				cout << "--------    Lista Activos Rentados   -----------" << endl;
+
+
+				cout << "1. Registrar Devolucion " << endl;
+				cout << "2. Salir del SubMenu" << endl << endl;
+				cout << "Ingresar Opcion : " << endl;
+				cin >> rep;
+				switch (rep) {
+				case 1:
+					cout << "Ingresar Activo a Devolver  " << endl;
+					cin.ignore();
+					cin.getline(activo, 30, '\n');
+
+					cout << "Mostrar Activo a Devolver  " << endl;
+
+					system("pause");
+
+					break;
+				}
+				system("cls");
+			} while (rep != 2);
+			cout << "\n";
+			system("pause");
+
+
+
+			break;
+		case 6:  system("cls");
+				
+				cout << "--------    Mis Activos Rentados   -----------" << endl;
+
+
+			system("pause");
+
+
+			break;
+		}
+		system("cls");
+	} while (opcion != 7);
+}
+
+
+
+
+
+void login() {
+
+	int  opcion, contador = 0, rep;
+	char nombre_login[30], pass_login[30];
+	char departamento_login[30], empresa_login[30];
+	//bool veri;
+
+	do {
+		system("cls");
+		cout << "<<<<<<  Bienvenidos a la Aplicacion  >>>>>>" << endl << endl;
+		cout << "1. Loguearse " << endl;
+		cout << "4. Salir " << endl << endl;
+		cout << "Ingresa Opcion : ";
+		cin >> opcion;
+
+		switch (opcion) {
+		case 1:  system("cls");
+			cout << "<<<<<<  Ingresar Datos del Usuario  >>>>>>" << endl << endl;
+			cout << "Ingresar el Nombre : " << endl;
+			cin.ignore();
+			cin.getline(nombre_login,30, '\n');			
+			cout << "Ingresar el Password : " << endl;
+		 	cin.getline(pass_login, 30, '\n');			
+			cout << "Ingresar el Departamento :  " << endl;
+			cin.getline(departamento_login, 30, '\n');
+			cout << "Ingresara la Empresa : " << endl;
+			cin.getline(empresa_login, 30, '\n');				
+			//cout << "variables captadas : " <<nombre_login <<" "<<pass_login<<" "<<departamento_login<<" "<<empresa_login << endl;
+
+			system("pause");
+			if (comparar(std::string(nombre_login), "admin") == 0 && comparar(std::string(pass_login), "admin") == 0 && comparar(std::string(departamento_login), "admin") == 0 && comparar(std::string(empresa_login), "admin") == 0)
+			{
+				system("cls");
+				cout << "El Usuario Administrador : " << endl;
+				menu_admin();
+			}else if(Users->login(std::string(departamento_login), std::string(empresa_login), std::string(nombre_login), std::string(pass_login))==true){
+				system("cls");
+				cout << "Usuario Logueado : " << endl;  system("pause");
+				menu_usuario();
+			}
+			else { system("cls"); cout << "El Usuario no Existe : " << endl; system("pause"); }
+
+			break;
+		case 2: system("cls");
+			
+
+
+
+
+			
+
+			break;
+
+				}
+		system("cls");
+	} while (opcion != 4);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -235,18 +354,26 @@ int comparar(std::string a, std::string b) {
 
 int main()
 {
+Users->insertar_elemento("Guatemala", "Profutbol", "Madelyn","123456");
+Users->insertar_elemento("Zacapa", "Despensa", "Sergio","123456");
+Users->insertar_elemento("Jutiapa", "Campero", "Ariel","123456");
+Users->insertar_elemento("Progreso", "Cemaco", "Lorena", "123456");
 
+Users->getArbol("Zacapa", "Despensa", "Sergio", "123456")->Insertar(alfanumerico(), "ediSergio", "DescriSergio");
+system("pause");
+Users->getArbol("Zacapa", "Despensa", "Sergio", "123456")->Insertar(alfanumerico(), "ediSergio22", "DescriSergio22");
+system("pause");
+Users->getArbol("Jutiapa", "Campero", "Ariel", "123456")->Insertar(alfanumerico(), "ediAriel", "DescriAriel");
+system("pause");
+Users->getArbol("Progreso", "Cemaco", "Lorena", "123456")->Insertar(alfanumerico(), "ediLorena", "DescriLorena");
+system("pause");
 
+	//login();
 
+//alfanumerico();
 
+menu_usuario();
 
-
-
-
-
-
-
-//menu();
 	//cout << " /////////////////////  datos de la pila" << endl;
 	estructura_pila<std::string> * pil = new estructura_pila<std::string>();
 	pil->push("elemento 1");
@@ -287,74 +414,21 @@ int main()
 	
 
 
-	//cout << " /////////////////////  prueba de matriz" << endl << endl;
-	estructura_matriz <string> *mat = new estructura_matriz<string>();
-	//mat->insertar_elemento("Departamento1", "empresa1", "Dato1");
-	//mat->insertar_elemento("Departamento2", "empresa2", "Dato2");
-//	mat->insertar_elemento("Departamento3", "empresa3", "Dato3");
-//	mat->insertar_elemento("Departamento4", "empresa4", "Dato4");
-//	mat->insertar_elemento("Departamento5", "empresa5", "Dato5");
-//	mat->insertar_elemento("Departamento6", "empresa6", "Dato6");
-
-//	mat->insertar_elemento("Departamento6", "empresa5", "Dato77");
-
-
-
-//	mat->insertar_elemento("Departamento4", "empresa4", "Dato4_z1");
-//	mat->insertar_elemento("Departamento4", "empresa4", "Dato4_z2");
-	
-
-
-//	mat->insertar_elemento("Departamento4", "empresa1", "Dato2");
-//	mat->insertar_elemento("Departamento4", "empresa1", "Dato2_Z1");
-//	mat->insertar_elemento("Departamento4", "empresa1", "Dato2_Z2");
-//	mat->insertar_elemento("Departamento4", "empresa1", "Dato2_Z3");
-	
-
-	mat->insertar_elemento("SOLOLA", "ADI", "PECO","123456");
-
-	mat->insertar_elemento( "REU","adi", "val", "123456");
-	mat->insertar_elemento( "HUEHUETENANGO","adi", "Espino", "123456");
-	mat->insertar_elemento( "HUEHUETENANGO","EST", "Rambo", "123456");
-	mat->insertar_elemento( "PETEN","BUR", "pio", "123456");
-	mat->insertar_elemento("solola", "BUR", "pol", "123456");
-	mat->insertar_elemento( "PETEN","CAM", "ALI", "123456");
-	mat->insertar_elemento("reu", "BUR", "pik", "123456");
-	mat->insertar_elemento("reu", "BUR", "atras", "123456");
-
-	cout << "resultado de login   es    :"<<mat->login("reu", "BUR", "atras", "123456") << endl;
-
-	//mat->insertar_elemento( "PETEN","MAC", "simon", "123456");
-	//mat->insertar_elemento( "REU","FIFA", "Ronaldo");
-	//mat->insertar_elemento( "REU","MAX", "Espino");
-//	mat->insertar_elemento( "SOLOLA","MAX", "pablo");
-
-
-
-
-
-
-
-	mat->generar_txt();
-	//cout << mat->grafic() << endl << endl;
-
-	
-	
 	
 	
 
 	// Un árbol de enteros
 	estructura_arbol_valanceado<int> Arbol; 
 	//cout << "Inserción de nodos en árbol  " << endl;
-	Arbol.Insertar(9);
-	Arbol.Insertar(6);
-	Arbol.Insertar(12);
-	Arbol.Insertar(3);
-	Arbol.Insertar(4);
-	Arbol.Insertar(7);
-	Arbol.Insertar(15);
-	Arbol.Insertar(11);
-	Arbol.Insertar(18);
+	//Arbol.Insertar(9);
+	//Arbol.Insertar(6);
+	//Arbol.Insertar(12);
+	//Arbol.Insertar(3);
+	//Arbol.Insertar(4);
+	//Arbol.Insertar(7);
+	//Arbol.Insertar(15);
+	//Arbol.Insertar(11);
+	//Arbol.Insertar(18);
 	//cout << "\n\n Genero grafico  " << endl;
 //	Arbol.inOrder();
 	//Arbol.generar_grafico();
@@ -372,21 +446,6 @@ int main()
 	//cout << "Existe Dato :  " << Arbol.buscarDato(20) << "  <-----  Si fue 1 es true y si es 0 es false \n\n";
 	
 
-
-	estructura_arbol_valanceado<string> ArbolSt;
-	ArbolSt.Insertar("ariel");
-	ArbolSt.Insertar("daniel");
-	ArbolSt.Insertar("zorro");
-	ArbolSt.Insertar("hero");
-	ArbolSt.Insertar("maicol");
-	ArbolSt.Insertar("pApa");
-	ArbolSt.Insertar("bari");
-	ArbolSt.Insertar("sonso");
-	ArbolSt.Insertar("toLador");
-	ArbolSt.eliminar_dato("isla");
-	ArbolSt.eliminar_dato("hero");
-	//ArbolSt.generar_grafico();
-	ArbolSt.inOrder();
 
 
 	
