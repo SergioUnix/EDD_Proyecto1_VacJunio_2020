@@ -2,11 +2,11 @@ digraph grafica{
 rankdir=TB; 
 node[fillcolor =cyan , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
 label = "Arbol Balanceado " ;
-gcg24cz195mb116[ label ="<C0>|edificio1|<C1>"]; 
-kib30jd158qq167[ label ="<C0>|edificio2|<C1>"]; 
-lty33vf158nm183[ label ="<C0>|edificio3|<C1>"]; 
-piw63pd141px127[ label ="<C0>|artes plasctica|<C1>"]; 
-kib30jd158qq167:C0->gcg24cz195mb116
-kib30jd158qq167:C1->lty33vf158nm183
-lty33vf158nm183:C1->piw63pd141px127
+14[ label ="<C0>|{edific|14|disponible}|<C1>"]; 
+18[ label ="<C0>|{edificio|18|disponible}|<C1>"]; 
+21[ label ="<C0>|{edificiodsa|21|disponible}|<C1>"]; 
+76[ label ="<C0>|{ariel|76|disponible}|<C1>"]; 
+18:C0->14
+18:C1->21
+21:C1->76
 } 

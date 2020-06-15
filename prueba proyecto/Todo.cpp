@@ -5,21 +5,29 @@
 #include <windows.h>
 #include <stdlib.h>
 #include <time.h>       /* time */
+#include <ctime>  /* time */
+#include <vector> /* time */
 #include "estructura_pila.h"
 #include "estructura_cola.h"
 #include "estructura_lista_simple.h"
 #include "estructura_matriz.h"
 #include "estructura_arbol_valanceado.h"
+#include "estructura_circular.h"
+
 
 using namespace std;
 
 
 //matriz de toda la aplicacion
 estructura_matriz <string> *Users = new estructura_matriz<string>();
+//Estructura de transacciones
+estructura_circular *transacciones = new estructura_circular();
 
-//string usuario_logueado = "Madelyn";string pass_logueado = "123456";string departamento_logueado = "Guatemala";string empresa_logueado = "Profutbol";
-string usuario_logueado = "Ariel"; string pass_logueado = "123456"; string departamento_logueado = "Jutiapa"; string empresa_logueado = "Campero";
-//string usuario_logueado = "Sergio"; string pass_logueado = "123456"; string departamento_logueado = "Zacapa"; string empresa_logueado = "Despensa";
+string usuario_logueado = "admin"; string pass_logueado = "admin"; string departamento_logueado = "admin"; string empresa_logueado = "admin";
+//string usuario_logueado = "madelyn";string pass_logueado = "123456";string departamento_logueado = "guatemala";string empresa_logueado = "profutbol";
+//string usuario_logueado = "ariel"; string pass_logueado = "123456"; string departamento_logueado = "jutiapa"; string empresa_logueado = "campero";
+//string usuario_logueado = "sergio"; string pass_logueado = "123456"; string departamento_logueado = "zacapa"; string empresa_logueado = "despensa";
+
 
 
 // Este metodo me compara dos strings pero los compara haciendolos cadena de char primero porque se utiliza el metodo strcpy_s 
@@ -49,7 +57,8 @@ string alfanumerico() {
 	numeric1 = 10 + rand() % (98 - 10); //2
 	numeric2 = 101 + rand() % (198 - 101);//3
 	numeric3 = 101 + rand() % (298 - 201);//3
-	codigo_random = codigo_random + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] +  to_string(numeric1)+numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + to_string(numeric2) + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + to_string(numeric3);
+	//codigo_random = to_string(numeric2) + codigo_random + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] +  to_string(numeric1)+numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + to_string(numeric3) + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)];
+	codigo_random = codigo_random + to_string(numeric1);
 	//cout<< " numero : " << codigo_random << endl;
 	return codigo_random;
 }
@@ -58,7 +67,7 @@ string alfanumerico() {
 
 
 
-// Menu de Administrador 
+//////////////////////////////////////////////////// Menu de Administrador 
 void menu_admin() {
 
 	int  opcion, contador = 0, rep;
@@ -83,6 +92,7 @@ void menu_admin() {
 		switch (opcion) {
 		case 1:  system("cls");
 			cout << "<<<<<<  Ingresar Datos del Usuario  >>>>>>" << endl << endl;
+			cin.ignore();
 			cout << "Ingresar el Nombre : " << endl;
 			cin >> nombre;
 			cout << "Ingresar el Password : " << endl;
@@ -104,9 +114,13 @@ void menu_admin() {
 
 			break;
 		case 2: system("cls");
-			Users->generar_txt();
+			Users->generar_txt(); //genero reporte de la matriz
 			break;
-		case 3:			
+		case 3:	system("cls");
+			cin.ignore();
+			cout << "Ingresar el Departamento :  " << endl;
+			cin >> departamento;
+
 			break;
 		case 5:    system("cls");
 			break;
@@ -132,6 +146,10 @@ void menu_usuario() {
 	int  opcion, contador = 0, rep;
 	char nom[30], usuario[30],descripcion[30],id[30];
 	char activo[30], dias[30], nom_activo[30];
+
+	time_t tmFechaHora = time(NULL);
+	char* strFechaHora = ctime(&tmFechaHora);
+
 	Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(), "edific", "jajajajafdsa");
 	system("pause");
 	Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(), "edificio", "nifdsnguna");
@@ -194,10 +212,11 @@ void menu_usuario() {
 			break;
 		case 4:    system("cls");
 
+			
 
 			do {
 				cout << "--------   Catalogo de Activos   -----------" << endl;
-				Users->catalogo(usuario_logueado,pass_logueado);
+				Users->catalogo(usuario_logueado,pass_logueado); ///muestra solo los disponibles
 				
 				cout << "\n\n1. Rentar Activo " << endl;
 				cout << "2. Salir del SubMenu" << endl << endl;
@@ -205,16 +224,27 @@ void menu_usuario() {
 				cin >> rep;
 				switch (rep) {
 				case 1:
-					cout << "Ingresar Activo a Rentar  " << endl;
+
+					tmFechaHora = time(NULL);
+					strFechaHora = ctime(&tmFechaHora);
+					cout << "\nIngresar Activo a Rentar  " << endl;
 					cin.ignore();
 					cin.getline(activo, 30, '\n');
-
-					cout << "Mostrar Activo a modificar , graficar el cubo para ver " << endl;
-					Users->generar_txt();
-
+					//cout << "Mostrar Activo a Rentar " << endl;
+					//if (Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->buscarDato(std::string(activo))) {//si lo encontre procedo a crear la transaccion
+					
 					cout << "Ingresar Dias por Rentar  " << endl;
 					cin.getline(dias, 30, '\n');
 
+					transacciones->add_ordenado(alfanumerico(), std::string(activo), usuario_logueado,departamento_logueado, std::string(strFechaHora), std::string(dias),empresa_logueado);
+					cout << "  Se creo correctamente la transaccion " << endl;
+					Users->activoNoDisponible(std::string(activo)); // pasar a No disponible un activo en toda la matriz
+
+
+					//}
+					//else { cout << "  NO SE ENCONTRO EL DATO BUSCADO , NO SE CREO LA TRANSACCION " << endl; };
+					
+					system("pause");
 					break;
 			}
 				system("cls");
@@ -229,7 +259,7 @@ void menu_usuario() {
 
 			do {
 				cout << "--------    Lista Activos Rentados   -----------" << endl;
-
+				transacciones->usuarioTransaccion(usuario_logueado,departamento_logueado,empresa_logueado);
 
 				cout << "1. Registrar Devolucion " << endl;
 				cout << "2. Salir del SubMenu" << endl << endl;
@@ -237,11 +267,12 @@ void menu_usuario() {
 				cin >> rep;
 				switch (rep) {
 				case 1:
-					cout << "Ingresar Activo a Devolver  " << endl;
+					cout << "Ingresar Id de transaccion para devolver " << endl;
 					cin.ignore();
 					cin.getline(activo, 30, '\n');
 
-					cout << "Mostrar Activo a Devolver  " << endl;
+					cout << "Devolviendo Activo....  " << endl;
+					Users->activoDisponible( transacciones->remove_cadena(std::string(activo)));     
 
 					system("pause");
 
@@ -258,7 +289,7 @@ void menu_usuario() {
 		case 6:  system("cls");
 				
 				cout << "--------    Mis Activos Rentados   -----------" << endl;
-
+				transacciones->usuarioTransaccion(usuario_logueado, departamento_logueado, empresa_logueado);
 
 			system("pause");
 
@@ -354,25 +385,27 @@ void login() {
 
 int main()
 {
-Users->insertar_elemento("Guatemala", "Profutbol", "Madelyn","123456");
-Users->insertar_elemento("Zacapa", "Despensa", "Sergio","123456");
-Users->insertar_elemento("Jutiapa", "Campero", "Ariel","123456");
-Users->insertar_elemento("Progreso", "Cemaco", "Lorena", "123456");
+Users->insertar_elemento("guatemala", "profutbol", "madelyn","123456");
+Users->insertar_elemento("zacapa", "despensa", "sergio","123456");
+Users->insertar_elemento("jutiapa", "campero", "ariel","123456");
+Users->insertar_elemento("progreso", "cemaco", "lorena", "123456");
 
-Users->getArbol("Zacapa", "Despensa", "Sergio", "123456")->Insertar(alfanumerico(), "ediSergio", "DescriSergio");
+Users->getArbol("zacapa", "despensa", "sergio", "123456")->Insertar(alfanumerico(), "ediSergio", "descriSergio");
 system("pause");
-Users->getArbol("Zacapa", "Despensa", "Sergio", "123456")->Insertar(alfanumerico(), "ediSergio22", "DescriSergio22");
+Users->getArbol("zacapa", "despensa", "sergio", "123456")->Insertar(alfanumerico(), "ediSergio22", "descriSergio22");
 system("pause");
-Users->getArbol("Jutiapa", "Campero", "Ariel", "123456")->Insertar(alfanumerico(), "ediAriel", "DescriAriel");
+Users->getArbol("jutiapa", "campero", "ariel", "123456")->Insertar(alfanumerico(), "ediAriel", "descriAriel");
 system("pause");
-Users->getArbol("Progreso", "Cemaco", "Lorena", "123456")->Insertar(alfanumerico(), "ediLorena", "DescriLorena");
+Users->getArbol("progreso", "cemaco", "lorena", "123456")->Insertar(alfanumerico(), "ediLorena", "descriLorena");
 system("pause");
 
 	//login();
 
 //alfanumerico();
 
-menu_usuario();
+//menu_usuario();
+menu_admin();
+
 
 	//cout << " /////////////////////  datos de la pila" << endl;
 	estructura_pila<std::string> * pil = new estructura_pila<std::string>();
@@ -415,37 +448,23 @@ menu_usuario();
 
 
 	
-	
-
-	// Un árbol de enteros
-	estructura_arbol_valanceado<int> Arbol; 
-	//cout << "Inserción de nodos en árbol  " << endl;
-	//Arbol.Insertar(9);
-	//Arbol.Insertar(6);
-	//Arbol.Insertar(12);
-	//Arbol.Insertar(3);
-	//Arbol.Insertar(4);
-	//Arbol.Insertar(7);
-	//Arbol.Insertar(15);
-	//Arbol.Insertar(11);
-	//Arbol.Insertar(18);
-	//cout << "\n\n Genero grafico  " << endl;
-//	Arbol.inOrder();
-	//Arbol.generar_grafico();
-	//Sleep(5000);
+	cout << " /////////////////////  prueba de lista circular  " << endl << endl;
 
 
-	//cout << "\n\n Elimino Datos " << endl;
-	//Arbol.eliminar_dato(6);
-	//Arbol.eliminar_dato(25);
-	//Arbol.eliminar_dato(3);
-	//cout << "\n\n Genero grafico  " << endl;
-	//Arbol.inOrder();
-	//Arbol.generar_grafico();
-	//cout << "\n\n Busco Dato  " << endl;
-	//cout << "Existe Dato :  " << Arbol.buscarDato(20) << "  <-----  Si fue 1 es true y si es 0 es false \n\n";
-	
 
+	transacciones->add_ordenado("alfa13","alfactivo11","Madelyn","Guatemala" ,"30/12/2020","3 meses","empresa");
+	transacciones->add_ordenado("alfa12", "alfactivo12", "Madelyn", "Guatemala", "30/12/2020", "3 meses", "empresa");
+//	transacciones->add_ordenado(alfanumerico(), std::string(activo), usuario_logueado, departamento_logueado, "18-12-2020", std::string(dias), empresa_logueado);
+//	transacciones->add_ordenado("alfa14", "alfactivo22", "Sergio","Zacapa", "30/12/2020", "3 meses");
+//	transacciones->add_ordenado("alfa12", "alfactivo33", "Lorena", "Progreso","30/12/2020", "3 meses");
+//	transacciones->add_ordenado("alfa11", "alfactivo44", "Ariel", "Chimaltenango","30/12/2020", "3 meses");
+	//transacciones->remove_at(0);
+
+	transacciones->generar_txt();
+	//transacciones->generar_txt();
+
+//	cout << transacciones->get_element_at(0) << transacciones->get_element_at(4) << endl << endl;
+//
 
 
 	

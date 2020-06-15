@@ -1,0 +1,13 @@
+ digraph G {
+nodesep=.02;
+rankdir=LR;
+node[fillcolor =cyan , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+label = "Lista Circular" ;
+node [width =1.5];
+node1[label = "{<n> |alfa12| <p> }"];
+node2[label = "{<n> |alfa13| <p> }"];
+node1:n -> node2:p;
+node1:p -> node2:n;
+node2:n -> node1:p;
+node2:p -> node1:n;
+}

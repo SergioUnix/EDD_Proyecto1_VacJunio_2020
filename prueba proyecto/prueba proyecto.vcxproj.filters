@@ -35,5 +35,8 @@
     <ClInclude Include="estructura_arbol_valanceado.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="estructura_circular.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -168,24 +168,25 @@ estructura_arbol_valanceado<string> * getArbol(string xx, string yy, T datorev, 
 ////////////////////////  ///////////////////////////Mostrar Catalogo
 void catalogo(string nombre,string pass) {
 	Nodo* enX = this->root->getNext();
-	//Nodo* enY = this->root;
+
 	Nodo* NodoCol = 0;
 	Nodo*temporal = 0;
-
+	//cout << "recibo datos " << nombre << " " << pass;
 	while (enX != 0) {
 		NodoCol = enX;
 		while (NodoCol != 0) {
 			temporal = NodoCol->getZ_back();
-			//if (NodoCol->getDato()!=nombre  && NodoCol->getPass()!=pass) {
+			//cout << " datos nodos " << NodoCol->getDato() << " " << NodoCol->getPass();
+	//if (NodoCol->getDato() != nombre && NodoCol->getPass()!= pass) {
 			if (NodoCol->getY() != "-1") {
-				NodoCol->getAVL()->inOrder();
+				NodoCol->getAVL()->inOrderDisponible();
 			}
 			while (temporal != 0) {
 			
 				if (temporal != 0) {
-					//if (comparar(NodoCol->getDato(), nombre) != 0 && comparar(NodoCol->getPass(), pass) != 0) {
-						temporal->getAVL()->inOrder();
-					//}
+			//if (temporal->getDato() != nombre && temporal->getPass() != pass) {
+					temporal->getAVL()->inOrderDisponible();
+			//}
 					temporal = temporal->getZ_back();
 				}else {	break;	};
 			};
@@ -197,6 +198,75 @@ void catalogo(string nombre,string pass) {
 	}
 };
 
+
+
+
+///Realizo No disponible en un activo atravez de cada AVL
+void activoNoDisponible(string id_activo) {
+	Nodo* enX = this->root->getNext();
+	//Nodo* enY = this->root;
+	Nodo* NodoCol = 0;
+	Nodo*temporal = 0;
+
+	while (enX != 0) {
+		NodoCol = enX;
+		while (NodoCol != 0) {
+			temporal = NodoCol->getZ_back();
+			//if (NodoCol->getDato()!=nombre  && NodoCol->getPass()!=pass) {
+			if (NodoCol->getY() != "-1") {
+				NodoCol->getAVL()->noDisponible(id_activo);
+			}
+			while (temporal != 0) {
+
+				if (temporal != 0) {
+					//if (comparar(NodoCol->getDato(), nombre) != 0 && comparar(NodoCol->getPass(), pass) != 0) {
+					temporal->getAVL()->noDisponible(id_activo);
+					//}
+					temporal = temporal->getZ_back();
+				}
+				else { break; };
+			};
+
+			NodoCol = NodoCol->getDown();
+		}
+
+		enX = enX->getNext();
+	}
+};
+
+
+////Cambiar a Disponible desde la matriz
+void activoDisponible(string id_activo) {
+	Nodo* enX = this->root->getNext();
+	//Nodo* enY = this->root;
+	Nodo* NodoCol = 0;
+	Nodo*temporal = 0;
+
+	while (enX != 0) {
+		NodoCol = enX;
+		while (NodoCol != 0) {
+			temporal = NodoCol->getZ_back();
+			//if (NodoCol->getDato()!=nombre  && NodoCol->getPass()!=pass) {
+			if (NodoCol->getY() != "-1") {
+				NodoCol->getAVL()->disponible(id_activo);
+			}
+			while (temporal != 0) {
+
+				if (temporal != 0) {
+					//if (comparar(NodoCol->getDato(), nombre) != 0 && comparar(NodoCol->getPass(), pass) != 0) {
+					temporal->getAVL()->disponible(id_activo);
+					//}
+					temporal = temporal->getZ_back();
+				}
+				else { break; };
+			};
+
+			NodoCol = NodoCol->getDown();
+		}
+
+		enX = enX->getNext();
+	}
+};
 
 
 

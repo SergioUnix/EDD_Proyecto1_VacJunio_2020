@@ -16,6 +16,8 @@ class estructura_arbol_valanceado {
 		T Info;
 		string nombre;
 		string descripcion;
+		string estado;
+
 		int FactorEquilibrio;
 
 
@@ -32,6 +34,7 @@ class estructura_arbol_valanceado {
 			nombre = nom;
 			descripcion = des;
 			Node_papa = father;
+			estado = "disponible";
 
 		}
 
@@ -66,9 +69,13 @@ public:
 	void Raiz() { node_presente = root; }
 	void recorrido_grap(Nodo<T> *node, std::string lado, std::string Node_papa);
 	void recorrido_inOrder(Nodo<T> * node);
+	void recorrido_inOrderDisponible(Nodo<T> * node);
 	void inOrder();
+	void inOrderDisponible();
 	std::string aMinuscula(string cadena);
-
+	//cambiar estado
+	void disponible(T id);
+	void noDisponible(T id);
 
 
 private:
@@ -82,6 +89,37 @@ private:
 
 
 };
+
+///cambia el atributo del nodo
+template <class T>
+void estructura_arbol_valanceado<T>::disponible(T datos)
+{
+	node_presente = root;
+	while (!verifico_vacio(node_presente)) {
+		if (comparar(datos, node_presente->Info) == 0) { node_presente->estado = "disponible"; return; }
+		else if (comparar(datos, node_presente->Info) == 1) node_presente = node_presente->Node_Derecho;
+		else if (comparar(datos, node_presente->Info) == -1) node_presente = node_presente->Node_Izquierdo;
+	}
+	return;
+}
+
+///cambie el estado del nodo
+template <class T>
+void estructura_arbol_valanceado<T>::noDisponible(T datos)
+{
+	node_presente = root;
+	while (!verifico_vacio(node_presente)) {
+		if (comparar(datos, node_presente->Info) == 0) { node_presente->estado = "no disponible"; return; }
+		else if (comparar(datos, node_presente->Info) == 1) node_presente = node_presente->Node_Derecho;
+		else if (comparar(datos, node_presente->Info) == -1) node_presente = node_presente->Node_Izquierdo;
+	}
+	return;
+}
+
+
+
+
+
 
 template <class T>
 void estructura_arbol_valanceado<T>::limpiarArbol(Nodo<T>* &nodo)
@@ -380,6 +418,38 @@ void estructura_arbol_valanceado<T>::inOrder() {
 }
 
 
+
+
+template <> ///////Aca le cree una sobrecarga si el arbol es de strings
+void estructura_arbol_valanceado<string>::recorrido_inOrderDisponible(Nodo<string> * node) {
+	if (!node) {
+		return;
+	}
+	recorrido_inOrderDisponible(node->Node_Izquierdo); //se va por la Izquierda
+	if (comparar(node->estado, "disponible") == 0) {
+		std::cout << "ID: " << node->Info << " ; Nombre :" << node->nombre << " Descripcion: " << node->descripcion << " Estado: "<<node->estado<< endl; // concateno los nodos
+}
+	recorrido_inOrderDisponible(node->Node_Derecho);//Se va por la derecha
+}
+
+template <class T>
+void estructura_arbol_valanceado<T>::inOrderDisponible() {
+	recorrido_inOrderDisponible(root);
+	std::cout << "\n";
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 template <class T>
 void estructura_arbol_valanceado<T>::eliminar_dato(T datos)
 {
@@ -528,7 +598,7 @@ bool estructura_arbol_valanceado<T>::buscarDato(T datos)
 {
 	node_presente = root;
 	while (!verifico_vacio(node_presente)) {
-		if (datos == node_presente->Info) return true;
+		if (datos == node_presente->Info) { cout << "ID :" << node_presente->Info << "; Nombre: " << node_presente->nombre << " Descripcion: " << node_presente->descripcion << endl; return true; }
 		else if (datos > node_presente->Info) node_presente = node_presente->Node_Derecho;
 		else if (datos < node_presente->Info) node_presente = node_presente->Node_Izquierdo;
 	}
@@ -606,7 +676,7 @@ void estructura_arbol_valanceado<string>::recorrido_grap(Nodo<string> * node, st
 	recorrido_grap(node->Node_Izquierdo, "0", node->Info); //se va por la Izquierda
 
 	if (lado != "root"&& Node_papa != "root") { direcciones = direcciones + Node_papa + ":C" + lado + "->" + node->Info + "\n"; } ////if que guarda las direcciones de los nodos
-	grafico = grafico +node->Info + "[ label =\"<C0>|" + node->nombre + "|<C1>\"]; \n"; // concateno los nodos
+	grafico = grafico +node->Info + "[ label =\"<C0>|{" + node->nombre +"|"+node->Info + "|"+node->estado+"}|<C1>\"]; \n"; // concateno los nodos
 
 	recorrido_grap(node->Node_Derecho, "1", node->Info);//Se va por la derecha
 

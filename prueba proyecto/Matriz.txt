@@ -4,32 +4,42 @@ Mt[ label = "Raiz Matrix", width = 1.5, style = filled, fillcolor = darkolivegre
 /*nodos vacíos, necesarios para anular la ubicación de nodo predeterminada de graphiz  */ 
  e0[ shape = point, width = 0 ];  
 e1[ shape = point, width = 0 ];   
+U334234[label = "334234" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
 Ucampero[label = "campero" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
 Ucemaco[label = "cemaco" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
 Udespensa[label = "despensa" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
 Uprofutbol[label = "profutbol" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
+U334234-> Ucampero; 
+Ucampero-> U334234; 
 Ucampero-> Ucemaco; 
 Ucemaco-> Ucampero; 
 Ucemaco-> Udespensa; 
 Udespensa-> Ucemaco; 
 Udespensa-> Uprofutbol; 
 Uprofutbol-> Udespensa; 
+A44543543[label = "44543543" width = 1.5 style = filled, fillcolor = turquoise3, group =44543543];  
 Aguatemala[label = "guatemala" width = 1.5 style = filled, fillcolor = turquoise3, group =guatemala];  
 Ajutiapa[label = "jutiapa" width = 1.5 style = filled, fillcolor = turquoise3, group =jutiapa];  
 Aprogreso[label = "progreso" width = 1.5 style = filled, fillcolor = turquoise3, group =progreso];  
 Azacapa[label = "zacapa" width = 1.5 style = filled, fillcolor = turquoise3, group =zacapa];  
+A44543543-> Aguatemala; 
+Aguatemala-> A44543543; 
 Aguatemala-> Ajutiapa; 
 Ajutiapa-> Aguatemala; 
 Ajutiapa-> Aprogreso; 
 Aprogreso-> Ajutiapa; 
 Aprogreso-> Azacapa; 
 Azacapa-> Aprogreso; 
-Mt -> Ucampero[dir="both"]; Mt -> Aguatemala[dir="both"]; 
-{ rank = same; Mt;Aguatemala; Ajutiapa; Aprogreso; Azacapa; } 
+Mt -> U334234[dir="both"]; Mt -> A44543543[dir="both"]; 
+{ rank = same; Mt;A44543543; Aguatemala; Ajutiapa; Aprogreso; Azacapa; } 
+N44543543334234 [label = "sergio" width = 1.5, group =44543543 ];  
 Njutiapacampero [label = "ariel" width = 1.5, group =jutiapa ];  
 Nprogresocemaco [label = "lorena" width = 1.5, group =progreso ];  
 Nzacapadespensa [label = "sergio" width = 1.5, group =zacapa ];  
 Nguatemalaprofutbol [label = "madelyn" width = 1.5, group =guatemala ];  
+U334234-> N44543543334234[dir="both"]; 
+A44543543-> N44543543334234[dir="both"];
+{ rank = same; U334234;N44543543334234;} 
 Ucampero-> Njutiapacampero[dir="both"]; 
 Ajutiapa-> Njutiapacampero[dir="both"];
 { rank = same; Ucampero;Njutiapacampero;} 
