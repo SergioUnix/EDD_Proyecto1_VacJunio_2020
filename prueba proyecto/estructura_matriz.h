@@ -269,6 +269,101 @@ void activoDisponible(string id_activo) {
 };
 
 
+//////  Aca imprimo todas las graficas de avl segun un departamento dado
+void reporteDepartamento(string departamento) {
+	string depa = aMinuscula(departamento);
+	Nodo* enX = this->root->getNext();
+	//Nodo* enY = this->root;
+	Nodo* NodoCol = 0;
+	Nodo*temporal = 0;
+	int auxiliar = 0;
+
+	string arboles_departamentos = "digraph departamentos{ \n";
+	string arboles_final = "label = \"Reporte por Departamento \" ;\n}";
+
+
+	while (enX != 0) {
+		NodoCol = enX;
+		while (NodoCol != 0) {
+			temporal = NodoCol->getZ_back();
+			//if (NodoCol->getDato()!=nombre  && NodoCol->getPass()!=pass) {
+//todo la columna
+			cout << " dato ingresado " << depa << "  dato del nodo " << NodoCol->getX() << endl;
+if(NodoCol->getX()==depa){
+			if (NodoCol->getY() != "-1") {
+				arboles_departamentos = arboles_departamentos +NodoCol->getAVL()->texto_departamento(NodoCol->getDato(), std::to_string(auxiliar));
+				auxiliar++;
+			}
+			while (temporal != 0) {
+
+				if (temporal != 0) {
+					//if (comparar(NodoCol->getDato(), nombre) != 0 && comparar(NodoCol->getPass(), pass) != 0) {
+					arboles_departamentos = arboles_departamentos + temporal->getAVL()->texto_departamento(temporal->getDato(), std::to_string(auxiliar));
+					auxiliar++;
+					//}
+					temporal = temporal->getZ_back();
+				}
+				else { break; };
+			};
+//todo la columna
+}//pertenece a un depa en especifico
+			NodoCol = NodoCol->getDown();
+		}
+
+		enX = enX->getNext();
+	}
+	string dot_total = arboles_departamentos + arboles_final;
+	generar_txt_departamentos(dot_total);
+};
+
+
+
+
+//////  Aca imprimo todas las graficas de avl segun LA EMPRESA INGRESADA
+void reporteEmpresa(string empresa) {
+	string empre = aMinuscula(empresa);
+	Nodo* enX = this->root->getNext();
+	//Nodo* enY = this->root;
+	Nodo* NodoCol = 0;
+	Nodo*temporal = 0;
+	int auxiliar = 0;
+
+	string arboles_empresas = "digraph empresas{ \n";
+	string arboles_final = "label = \"Reporte por Empresa \" ;\n}";
+
+
+	while (enX != 0) {
+		NodoCol = enX;
+		while (NodoCol != 0) {
+			temporal = NodoCol->getZ_back();
+	
+			cout << " dato ingresado " << empre << "  dato del nodo " << NodoCol->getY() << endl;
+			if (NodoCol->getY() == empre) {
+				if (NodoCol->getY() != "-1") {
+					arboles_empresas = arboles_empresas +NodoCol->getAVL()->texto_departamento(NodoCol->getDato(), std::to_string(auxiliar));
+					auxiliar++;
+				}
+				while (temporal != 0) {
+
+					if (temporal != 0) {
+						
+						arboles_empresas = arboles_empresas +temporal->getAVL()->texto_departamento(temporal->getDato(), std::to_string(auxiliar));
+						auxiliar++;
+					temporal = temporal->getZ_back();
+					}
+					else { break; };
+				};
+				//todo la columna
+			}//pertenece a una empresa  en especifico
+			NodoCol = NodoCol->getDown();
+		}
+
+		enX = enX->getNext();
+	}
+	string dot_total = arboles_empresas + arboles_final;
+	generar_txt_empresas(dot_total);
+};
+
 
 
 
@@ -764,7 +859,35 @@ void activoDisponible(string id_activo) {
 
 
 	}
+	void generar_txt_departamentos(string departamento) {
+		std::string texto = departamento;
+		std::ofstream archivo;
+		archivo.open("reporte_departamento.txt", std::ios::out);
 
+		archivo << texto;
+		archivo.close();
+
+		std::string sentencia = "dot -Tpng reporte_departamento.txt -o reporte_departamento.png";
+		std::string sentencia2 = "start reporte_departamento.png";
+		system(sentencia.c_str());
+		system(sentencia2.c_str());
+
+
+	}	void generar_txt_empresas(string empresa) {
+		std::string texto = empresa;
+		std::ofstream archivo;
+		archivo.open("reporte_empresa.txt", std::ios::out);
+
+		archivo << texto;
+		archivo.close();
+
+		std::string sentencia = "dot -Tpng reporte_empresa.txt -o reporte_empresa.png";
+		std::string sentencia2 = "start reporte_empresa.png";
+		system(sentencia.c_str());
+		system(sentencia2.c_str());
+
+
+	}
 
 
 

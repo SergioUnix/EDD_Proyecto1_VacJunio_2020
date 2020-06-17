@@ -52,6 +52,7 @@ public:
 	std::string grafico = "";
 	std::string direcciones = "";
 	std::string  texto = "";
+	std::string  ocupados = "";
 	void Insertar(T datos, string nom,string des);
 	bool buscarDato(T datos);
 	void actualizar(string datos, string des);
@@ -65,9 +66,12 @@ public:
 	}
 	int comparar(string a, string b);  ///este compara strings sirve para la insercion en string
 	std::string  texto_grafic();
+	std::string  texto_departamento(string usuario,string auxiliar);
+	//std::string  texto_empresa(string usuario);
 	void generar_grafico();
 	void Raiz() { node_presente = root; }
 	void recorrido_grap(Nodo<T> *node, std::string lado, std::string Node_papa);
+	void recorrido_grap_reporte(Nodo<T> *node, std::string lado, std::string Node_papa);
 	void recorrido_inOrder(Nodo<T> * node);
 	void recorrido_inOrderDisponible(Nodo<T> * node);
 	void inOrder();
@@ -76,6 +80,7 @@ public:
 	//cambiar estado
 	void disponible(T id);
 	void noDisponible(T id);
+	void reporteGrafico(string auxiliar);
 
 
 private:
@@ -685,14 +690,58 @@ void estructura_arbol_valanceado<string>::recorrido_grap(Nodo<string> * node, st
 
 }
 
+//solo para el reporte
+template <>
+void estructura_arbol_valanceado<string>::recorrido_grap_reporte(Nodo<string> * node, string lado, string Node_papa) {
+	if (!node) {
 
 
+		return;
+	}
+	if (lado == "root") {
+		direcciones = "";  //el if lo que hace es que si esta llenas estas variables me las borre y haga una nueva asignacion, esto es porque c++ guarda su valor aun
+		grafico = "";
+	}
+
+
+	recorrido_grap_reporte(node->Node_Izquierdo, "0", node->Info); //se va por la Izquierda
+
+	if (lado != "root"&& Node_papa != "root") { direcciones = direcciones + Node_papa + ":C" + lado + "->" + node->Info + "\n"; } ////if que guarda las direcciones de los nodos
+	
+	grafico = grafico + node->Info + "[ label =\"<C0>|{" + node->nombre + "|" + node->Info + "|" + node->estado + "}|<C1>\"]; \n"; // concateno los nodos
+	if (node->estado == "no disponible") { ocupados = ocupados + node->Info + ";"; }
+	recorrido_grap_reporte(node->Node_Derecho, "1", node->Info);//Se va por la derecha
+
+
+
+
+}
+
+
+
+template <class T>
+std::string  estructura_arbol_valanceado<T>::texto_departamento(string usuario,string auxiliar) {
+	grafico = "";
+	direcciones = "";
+	ocupados = "";
+	recorrido_grap_reporte(root, "root", "root");
+	string aa = "";
+	if (ocupados == "") { aa = "node[fillcolor =red , fontcolor = navy , color = dark ,style = filled, shape = record, width = .1, height = .1]" + ocupados + ";";
+	}
+	else { aa = "node[fillcolor =red , fontcolor = navy , color = dark ,style = filled, shape = record, width = .1, height = .1]" + ocupados ; }
+	
+	string linea1 = "subgraph dep{ \nrankdir=TB;\n"+aa+"\nnode[fillcolor =green , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];\n";
+	return linea1 + grafico + direcciones +"node[fillcolor =white  width = 0.1, height = .1];" + usuario + auxiliar+ "[label=\"{User | "+ usuario +"}\" fontcolor=red];"+ "} \n";
+	std::cout << std::endl;
+
+}
 
 
 template <class T>
 std::string  estructura_arbol_valanceado<T>::texto_grafic() {
 	grafico = "";
 	direcciones = "";
+	ocupados = "";
 	recorrido_grap(root, "root", "root");
 	string linea1 = "digraph grafica{ \nrankdir=TB; \nnode[fillcolor =cyan , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];\nlabel = \"Arbol Balanceado \" ;\n";
 	return linea1 + grafico + direcciones + "} \n";
@@ -716,6 +765,27 @@ void estructura_arbol_valanceado<T>::generar_grafico() {
 	system(sentencia.c_str());
 	system(sentencia2.c_str());
 
+
+
+}
+
+
+template <class T>
+void estructura_arbol_valanceado<T>::reporteGrafico(string auxiliar) {
+	
+	texto = texto_departamento();
+	Sleep(1000);
+	std::ofstream archivo;
+	archivo.open("Arbol_Balanceado"+auxiliar+".txt", std::ios::out);
+
+	archivo << texto;
+	archivo.close();
+
+	std::string sentencia = "dot -Tpng Arbol_Balanceado" + auxiliar + ".txt -o Arbol_Balanceado" + auxiliar + ".png";
+	std::string sentencia2 = "start Arbol_Balanceado" + auxiliar + ".png";
+	system(sentencia.c_str());
+	system(sentencia2.c_str());
+	Sleep(1000);
 
 
 }

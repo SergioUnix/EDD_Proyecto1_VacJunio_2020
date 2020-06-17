@@ -1,0 +1,19 @@
+digraph empresas{ 
+subgraph dep{ 
+rankdir=TB;
+node[fillcolor =red , fontcolor = navy , color = dark ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =green , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+63[ label ="<C0>|{edificiosergio|63|disponible}|<C1>"]; 
+69[ label ="<C0>|{cuartosergio|69|disponible}|<C1>"]; 
+63:C1->69
+node[fillcolor =white  width = 0.1, height = .1];sergio0[label="{User | sergio}" fontcolor=red];} 
+subgraph dep{ 
+rankdir=TB;
+node[fillcolor =red , fontcolor = navy , color = dark ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =green , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+76[ label ="<C0>|{edificiodaniel|76|disponible}|<C1>"]; 
+82[ label ="<C0>|{cuartodaniel|82|disponible}|<C1>"]; 
+76:C1->82
+node[fillcolor =white  width = 0.1, height = .1];daniel1[label="{User | daniel}" fontcolor=red];} 
+label = "Reporte por Empresa " ;
+}
