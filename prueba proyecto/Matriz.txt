@@ -4,12 +4,12 @@ Mt[ label = "Raiz Matrix", width = 1.5, style = filled, fillcolor = darkolivegre
 /*nodos vacíos, necesarios para anular la ubicación de nodo predeterminada de graphiz  */ 
  e0[ shape = point, width = 0 ];  
 e1[ shape = point, width = 0 ];   
-Ufedex[label = "fedex" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
+Uempresa1[label = "empresa1" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
 Aguatemala[label = "guatemala" width = 1.5 style = filled, fillcolor = turquoise3, group =guatemala];  
-Mt -> Ufedex[dir="both"]; Mt -> Aguatemala[dir="both"]; 
+Mt -> Uempresa1[dir="both"]; Mt -> Aguatemala[dir="both"]; 
 { rank = same; Mt;Aguatemala; } 
-Nguatemalafedex [label = "sergio" width = 1.5, group =guatemala ];  
-Ufedex-> Nguatemalafedex[dir="both"]; 
-Aguatemala-> Nguatemalafedex[dir="both"];
-{ rank = same; Ufedex;Nguatemalafedex;} 
+Nguatemalaempresa1 [label = "sergio" width = 1.5, group =guatemala ];  
+Uempresa1-> Nguatemalaempresa1[dir="both"]; 
+Aguatemala-> Nguatemalaempresa1[dir="both"];
+{ rank = same; Uempresa1;Nguatemalaempresa1;} 
 subgraph cluster_0 {   style = filled; charset = latin1; bgcolor = black; color = white; node[fillcolor =lemonchiffon , fontcolor = black , color = darkolivegreen3 ,style = filled, shape = record];label = "Ejes en Z"; }}
