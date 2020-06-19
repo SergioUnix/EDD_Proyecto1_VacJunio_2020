@@ -22,6 +22,12 @@ using namespace std;
 estructura_matriz <string> *Users = new estructura_matriz<string>();
 //Estructura de transacciones
 estructura_circular *transacciones = new estructura_circular();
+//Total de transacciones como historial
+estructura_circular *transacciones_total = new estructura_circular();
+
+//ordenada
+estructura_circular *circular_ordenada = new estructura_circular();
+estructura_circular *circular_descendente = new estructura_circular();
 
 string usuario_logueado = ""; string pass_logueado = ""; string departamento_logueado = ""; string empresa_logueado = "";
 
@@ -53,8 +59,8 @@ string alfanumerico() {
 	numeric1 = 10 + rand() % (98 - 10); //2
 	numeric2 = 101 + rand() % (198 - 101);//3
 	numeric3 = 101 + rand() % (298 - 201);//3
-	//codigo_random = to_string(numeric2) + codigo_random + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] +  to_string(numeric1)+numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + to_string(numeric3) + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)];
-	codigo_random = codigo_random + to_string(numeric1);
+	codigo_random = to_string(numeric2) + codigo_random + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] +  to_string(numeric1)+numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)] + to_string(numeric3) + numeros[1 + rand() % (25)] + numeros[1 + rand() % (25)];
+	//codigo_random = codigo_random + to_string(numeric1);
 	//cout<< " numero : " << codigo_random << endl;
 	return codigo_random;
 }
@@ -97,7 +103,7 @@ void menu_admin() {
 			cin >> departamento;
 			cout << "Ingresara la Empresa : " << endl;
 			cin >> empresa;
-			if (Users->login(std::string(departamento), std::string(empresa), std::string(nombre), std::string(pass))) {
+			if (Users->login_registro(std::string(departamento), std::string(empresa), std::string(nombre))) {
 				system("cls");
 				cout << "Usuario Ya Existe : " << endl;  system("pause");
 			}
@@ -126,13 +132,15 @@ void menu_admin() {
 			Users->reporteEmpresa(std::string(empresa));
 			system("pause");
 			break;
-		case 5: system("cls");//reporte de las transacciones
-			transacciones->generar_txt();
+		case 5: system("cls");//reporte de las transacciones  >>>>todas las realizadas en el programa , como un historial
+			//transacciones->generar_txt();
+			transacciones_total->generar_txt();
 			system("pause");
 			break;
 		case 6: system("cls");//reporte Activos de un Usuario
 			cout << "<<<<<<  Reporte de Activos de Un usuario >>>>>>" << endl;
-			cout << "<<<<<<  Ingrese Datos del usuario >>>>>>" << endl << endl;
+			Users->menuUsuarios();
+			cout << "\n\n<<<<<<  Ingrese Datos del usuario >>>>>>" << endl << endl;
 			cin.ignore();
 			cout << "Ingresar el Nombre : " << endl;
 			cin >> nombre;
@@ -151,7 +159,8 @@ void menu_admin() {
 			break;
 		case 7: system("cls");//Activos rentados por un Usuario
 			cout << "<<<<<<  Reporte de activos rentados por un usuario >>>>>>" << endl;
-			cout << "<<<<<<  Ingrese Datos del usuario >>>>>>" << endl << endl;
+			Users->menuUsuarios();
+			cout << "\n\n <<<<<< Ingrese Datos del usuario >>>>>>" << endl << endl;
 			cin.ignore();
 			cout << "Ingresar el Nombre : " << endl;
 			cin >> nombre;
@@ -160,13 +169,52 @@ void menu_admin() {
 			cout << "Ingresara la Empresa : " << endl;
 			cin >> empresa;
 			//cout << "Datos Captado: " << std::string(nombre) << " " << std::string(departamento) << " " << std::string(empresa);
-			transacciones->usuarioTransaccion(std::string(nombre), std::string(departamento), std::string(empresa));
+			if (transacciones->usuarioTransaccion(std::string(nombre), std::string(departamento), std::string(empresa))) {
+				transacciones->generar_txt_reporte(std::string(nombre), std::string(departamento), std::string(empresa));
+			
+			}
+			else { cout << "Usuario ingresado Incorrectamente " << endl; };
 
 
 			
 			system("pause");
 			break;
 		case 8: system("cls");//Ordenar Transacciones
+			
+			do {
+				cout << "--------   Ordenamientos  -----------" << endl;
+				cout << "\n\n1<<<<<<<<<<<<<<<< Sub Menu>>>>>>>>>>>>>>>>>>" << endl;
+				cout << "1. Ordenar Ascendente " << endl;
+				cout << "2. Ordenar Descendente " << endl;
+				cout << "3. Salir del SubMenu" << endl << endl << endl;
+				cout << "Ingresar Opcion : " << endl;
+				cin >> rep;
+				switch (rep) {
+				case 1:
+					circular_ordenada->generar_txt();
+					transacciones_total = circular_ordenada;
+					system("pause");
+					break;
+				case 2:
+
+					circular_descendente = circular_ordenada;
+					circular_descendente->orden();
+					circular_descendente->generar_txt_();
+				
+					system("pause");
+					break;
+				}
+				system("cls");
+			} while (rep != 3);
+			cout << "\n";
+			system("pause");
+
+
+
+
+
+
+
 
 
 
@@ -188,16 +236,20 @@ void menu_usuario() {
 	int  opcion, contador = 0, rep;
 	char nom[30], usuario[30],descripcion[30],id[30];
 	char activo[30], dias[30], nom_activo[30];
+	bool existe = false;
+	string alfa_numero = "";
 
 	time_t tmFechaHora = time(NULL);
 	char* strFechaHora = ctime(&tmFechaHora);
-
-	Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(), "edific", "jajajajafdsa");
+	/* string edific = "edificio" + usuario_logueado;
+	string edific2 = "mansion" + usuario_logueado;
+	string edific3 = "carro" + usuario_logueado;
+	Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(), edific, "jajajajafdsa");
 	system("pause");
-	Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(), "edificio", "nifdsnguna");
+	Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(), edific2, "nifdsnguna");
 	system("pause");
-	Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(), "edificiodsa", "ffffy");
-	system("pause");
+	Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(), edific3, "ffffy");
+	system("pause");*/
 	do {
 		system("cls");
 		cout << "<<<<<<  Menu de la Aplicacion  >>>>>>" << "       Bienvenido :" << usuario_logueado << endl << endl;
@@ -223,9 +275,8 @@ void menu_usuario() {
 
 		Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->Insertar(alfanumerico(),nom_activo,descripcion);
 		Users->getArbol(departamento_logueado, empresa_logueado, usuario_logueado, pass_logueado)->generar_grafico();
-		//	ArbolSt.Insertar("aklskf142", "edificio1", "este es un inmueble");
-
-
+	
+		system("pause");
 			break;
 		case 2: system("cls");  //Eliminar Activo
 			system("cls");
@@ -259,9 +310,9 @@ void menu_usuario() {
 			do {
 				cout << "--------   Catalogo de Activos   -----------" << endl;
 				Users->catalogo(usuario_logueado,pass_logueado); ///muestra solo los disponibles
-				
-				cout << "\n\n1. Rentar Activo " << endl;
-				cout << "2. Salir del SubMenu" << endl << endl;
+				cout << "\n\n1<<<<<<<<<<<<<<<< Sub Menu>>>>>>>>>>>>>>>>>>" << endl;
+				cout << "1. Rentar Activo " << endl;
+				cout << "2. Salir del SubMenu" << endl << endl<<endl;
 				cout << "Ingresar Opcion : " << endl;
 				cin >> rep;
 				switch (rep) {
@@ -278,9 +329,21 @@ void menu_usuario() {
 					cout << "Ingresar Dias por Rentar  " << endl;
 					cin.getline(dias, 30, '\n');
 
-					transacciones->add_ordenado(alfanumerico(), std::string(activo), usuario_logueado,departamento_logueado, std::string(strFechaHora), std::string(dias),empresa_logueado);
+					if(Users->existActivo(std::string (activo))){  
+					alfa_numero = alfanumerico();//guardo mi alfanumerico
+					Sleep(1000);
+					transacciones->add_ordenado(alfa_numero, std::string(activo), usuario_logueado,departamento_logueado, std::string(strFechaHora), std::string(dias),empresa_logueado);
+					//ingresar tambien a transacciones_total.. es mi historial
+					transacciones_total->add_last(alfa_numero, std::string(activo), usuario_logueado, departamento_logueado, std::string(strFechaHora), std::string(dias), empresa_logueado);
+					circular_ordenada->add_last(alfa_numero, std::string(activo), usuario_logueado, departamento_logueado, std::string(strFechaHora), std::string(dias), empresa_logueado);
+
+					
 					cout << "  Se creo correctamente la transaccion " << endl;
 					Users->activoNoDisponible(std::string(activo)); // pasar a No disponible un activo en toda la matriz
+					
+					}
+					else { cout << "\n  No se registro Correctamente, No es correcto el ID activo \n " << endl; }
+					
 
 
 					//}
@@ -303,8 +366,10 @@ void menu_usuario() {
 				cout << "--------    Lista Activos Rentados   -----------" << endl;
 				transacciones->usuarioTransaccion(usuario_logueado,departamento_logueado,empresa_logueado);
 
+
+				cout << "\n\n1<<<<<<<<<<<<<<<< Sub Menu Devolucion>>>>>>>>>>>>>>>>>>" << endl;
 				cout << "1. Registrar Devolucion " << endl;
-				cout << "2. Salir del SubMenu" << endl << endl;
+				cout << "2. Salir del SubMenu" << endl << endl<<endl;
 				cout << "Ingresar Opcion : " << endl;
 				cin >> rep;
 				switch (rep) {
@@ -313,8 +378,15 @@ void menu_usuario() {
 					cin.ignore();
 					cin.getline(activo, 30, '\n');
 
-					cout << "Devolviendo Activo....  " << endl;
-					Users->activoDisponible( transacciones->remove_cadena(std::string(activo)));     
+					
+					if(transacciones->exist(std::string(activo))){
+					Users->activoDisponible( transacciones->remove_cadena(std::string(activo)));  
+                     cout << "Devolucion del activo exitosamente " << endl;
+					}
+					else {
+						cout << "No se pudo devolver porque no esta en transacciones del usuario " << endl;
+					}
+					   
 
 					system("pause");
 
@@ -332,6 +404,7 @@ void menu_usuario() {
 				
 				cout << "--------    Mis Activos Rentados   -----------" << endl;
 				transacciones->usuarioTransaccion(usuario_logueado, departamento_logueado, empresa_logueado);
+				transacciones->generar_txt_reporte(usuario_logueado, departamento_logueado, empresa_logueado);//genera imagen de activos del usuario logueado
 
 			system("pause");
 
@@ -387,22 +460,25 @@ void login() {
 			cin.getline(empresa_login, 30, '\n');				
 			//cout << "variables captadas : " <<nombre_login <<" "<<pass_login<<" "<<departamento_login<<" "<<empresa_login << endl;
 
-			system("pause");
+			
 			if (comparar(std::string(nombre_login), "admin") == 0 && comparar(std::string(pass_login), "admin") == 0 && comparar(std::string(departamento_login), "admin") == 0 && comparar(std::string(empresa_login), "admin") == 0)
 			{
 				system("cls");
-				cout << "El Usuario Administrador se logueo : " << endl;
+				
 				 usuario_logueado = "admin"; pass_logueado = "admin";  departamento_logueado = "admin"; empresa_logueado = "admin";
+				 cout << "El Usuario Administrador se logueo : " << "Administrador" << endl;
 				 system("pause");
+				
 				menu_admin();
 			}else if(Users->login(std::string(departamento_login), std::string(empresa_login), std::string(nombre_login), std::string(pass_login))==true){
 				system("cls");
-				cout << "Usuario Logueado : " << endl;  system("pause");
+			
 				usuario_logueado = std::string(nombre_login); pass_logueado = std::string(pass_login);  departamento_logueado = std::string(departamento_login); empresa_logueado = std::string(empresa_login);
+				cout << "El Usuario Administrador se logueo : " << std::string(nombre_login) << endl;
 				system("pause");
 				menu_usuario();
 			}
-			else { system("cls"); cout << "El Usuario no Existe : " << endl; system("pause"); }
+			else { cout << "El Usuario no Existe " << endl; system("pause"); }
 
 			break;
 		case 2: system("cls");
@@ -439,47 +515,71 @@ void login() {
 
 
 
-
+ 
 
 int main()
 {
-Users->insertar_elemento("guatemala", "profutbol", "madelyn","123456");
-Users->insertar_elemento("guatemala", "profutbol", "veronica", "123456");
-Users->insertar_elemento("guatemala", "profutbol", "jony", "123456");
-Users->insertar_elemento("guatemala", "profutbol", "heroe", "123456");
+//Users->insertar_elemento("guatemala", "profutbol", "madelyn","123456");
+//Users->insertar_elemento("guatemala", "profutbol", "veronica", "123456");
+//Users->insertar_elemento("guatemala", "profutbol", "jony", "123456");
+//Users->insertar_elemento("guatemala", "profutbol", "heroe", "123456");
 
-Users->insertar_elemento("zacapa", "despensa", "sergio","123456");
-Users->insertar_elemento("zacapa", "despensa", "daniel", "123456");
+//Users->insertar_elemento("zacapa", "despensa", "sergio","123456");
+//Users->insertar_elemento("zacapa", "despensa", "daniel", "123456");
 
-Users->insertar_elemento("jutiapa", "campero", "ariel","123456");
-Users->insertar_elemento("jutiapa", "campero", "roberto", "123456");
+//Users->insertar_elemento("jutiapa", "campero", "ariel","123456");
+//Users->insertar_elemento("jutiapa", "campero", "roberto", "123456");
 
-Users->insertar_elemento("progreso", "cemaco", "lorena", "123456");
+//Users->insertar_elemento("progreso", "cemaco", "lorena", "123456");
 
-Users->insertar_elemento("guatemala", "empresa1", "pablo", "123456");
-Users->insertar_elemento("guatemala", "empresa1", "pedrito", "123456");
+//Users->insertar_elemento("guatemala", "empresa1", "pablo", "123456");
+//Users->insertar_elemento("guatemala", "empresa1", "pedrito", "123456");
 
 
 
-Users->getArbol("zacapa", "despensa", "sergio", "123456")->Insertar(alfanumerico(), "edificiosergio", "descriSergio");
-Sleep(2000);
-Users->getArbol("zacapa", "despensa", "sergio", "123456")->Insertar(alfanumerico(), "cuartosergio", "descriSergio");
-Sleep(2000);
-Users->getArbol("zacapa", "despensa", "daniel", "123456")->Insertar(alfanumerico(), "edificiodaniel", "descri daniel");
-Sleep(2000);
-Users->getArbol("zacapa", "despensa", "daniel", "123456")->Insertar(alfanumerico(), "cuartodaniel", "descri/daniel");
-Sleep(2000);
+//Users->getArbol("zacapa", "despensa", "sergio", "123456")->Insertar(alfanumerico(), "edificiosergio", "descriSergio");
+//Sleep(2000);
+//Users->getArbol("zacapa", "despensa", "sergio", "123456")->Insertar(alfanumerico(), "cuartosergio", "descriSergio");
+//Sleep(2000);
+//Users->getArbol("zacapa", "despensa", "daniel", "123456")->Insertar(alfanumerico(), "edificiodaniel", "descri daniel");
+//Sleep(2000);
+//Users->getArbol("zacapa", "despensa", "daniel", "123456")->Insertar(alfanumerico(), "cuartodaniel", "descri/daniel");
+//Sleep(2000);
 
-Users->getArbol("jutiapa", "campero", "ariel", "123456")->Insertar(alfanumerico(), "ediAriel", "descriAriel");
-Sleep(2000);
-Users->getArbol("progreso", "cemaco", "lorena", "123456")->Insertar(alfanumerico(), "ediLorena", "descriLorena");
-Sleep(2000);
+//Users->getArbol("jutiapa", "campero", "ariel", "123456")->Insertar(alfanumerico(), "ediAriel", "descriAriel");
+//Sleep(2000);
+//Users->getArbol("progreso", "cemaco", "lorena", "123456")->Insertar(alfanumerico(), "ediLorena", "descriLorena");
+//Sleep(2000);
+
+
 
 login();
-
-
 //menu_usuario();
 //menu_admin();
+
+//circular_ordenada->add_last("123dfhhajfdsaklk","433alfanumerico", "sergio", "guatemala", "fecha 32", "tres meses", "profutbol");
+//circular_ordenada->add_last("123dfhhajf433567", "433alfanumer432", "sergio", "guatemala", "fecha 32", "tres meses", "profutbol");
+//circular_ordenada->add_last("123dfhh54fgfd543", "433alfanumer244", "daniel", "escuintla", "fecha 32", "tres meses", "profutbol");
+//circular_ordenada->add_last("123422h54fgfd543", "433alfant44r244", "arturo", "escuintla", "fecha 32", "tres meses", "profutbol");
+//circular_ordenada->add_last("123dfhhajfgfd543", "433alfanumer754", "sergio", "guatemala", "fecha 32", "tres meses", "profutbol");
+//circular_ordenada->add_last("123dfhhajfjrd688", "433alfanumerk5n", "sergio", "guatemala", "fecha 32", "tres meses", "profutbol");
+//circular_ordenada->add_last("123dfhhajfndshh3", "433alfanumer9yg", "sergio", "guatemala", "fecha 32", "tres meses", "profutbol");
+
+//circular_ordenada->generar_txt_reporte("sergio","guatemala","profutbol");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

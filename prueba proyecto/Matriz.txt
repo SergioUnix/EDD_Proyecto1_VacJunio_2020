@@ -4,64 +4,12 @@ Mt[ label = "Raiz Matrix", width = 1.5, style = filled, fillcolor = darkolivegre
 /*nodos vacíos, necesarios para anular la ubicación de nodo predeterminada de graphiz  */ 
  e0[ shape = point, width = 0 ];  
 e1[ shape = point, width = 0 ];   
-Ucampero[label = "campero" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
-Ucemaco[label = "cemaco" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
-Udespensa[label = "despensa" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
-Uempresa1[label = "empresa1" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
-Uprofutbol[label = "profutbol" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
-Ucampero-> Ucemaco; 
-Ucemaco-> Ucampero; 
-Ucemaco-> Udespensa; 
-Udespensa-> Ucemaco; 
-Udespensa-> Uempresa1; 
-Uempresa1-> Udespensa; 
-Uempresa1-> Uprofutbol; 
-Uprofutbol-> Uempresa1; 
+Ufedex[label = "fedex" width = 1.5 style = filled, fillcolor = thistle2, group =1];  
 Aguatemala[label = "guatemala" width = 1.5 style = filled, fillcolor = turquoise3, group =guatemala];  
-Ajutiapa[label = "jutiapa" width = 1.5 style = filled, fillcolor = turquoise3, group =jutiapa];  
-Aprogreso[label = "progreso" width = 1.5 style = filled, fillcolor = turquoise3, group =progreso];  
-Azacapa[label = "zacapa" width = 1.5 style = filled, fillcolor = turquoise3, group =zacapa];  
-Aguatemala-> Ajutiapa; 
-Ajutiapa-> Aguatemala; 
-Ajutiapa-> Aprogreso; 
-Aprogreso-> Ajutiapa; 
-Aprogreso-> Azacapa; 
-Azacapa-> Aprogreso; 
-Mt -> Ucampero[dir="both"]; Mt -> Aguatemala[dir="both"]; 
-{ rank = same; Mt;Aguatemala; Ajutiapa; Aprogreso; Azacapa; } 
-Njutiapacampero [label = "ariel" width = 1.5, group =jutiapa ];  
-Nprogresocemaco [label = "lorena" width = 1.5, group =progreso ];  
-Nzacapadespensa [label = "sergio" width = 1.5, group =zacapa ];  
-Nguatemalaempresa1 [label = "pablo" width = 1.5, group =guatemala ];  
-Nguatemalaprofutbol [label = "madelyn" width = 1.5, group =guatemala ];  
-Ucampero-> Njutiapacampero[dir="both"]; 
-Ajutiapa-> Njutiapacampero[dir="both"];
-{ rank = same; Ucampero;Njutiapacampero;} 
-Ucemaco-> Nprogresocemaco[dir="both"]; 
-Aprogreso-> Nprogresocemaco[dir="both"];
-{ rank = same; Ucemaco;Nprogresocemaco;} 
-Udespensa-> Nzacapadespensa[dir="both"]; 
-Azacapa-> Nzacapadespensa[dir="both"];
-{ rank = same; Udespensa;Nzacapadespensa;} 
-Uempresa1-> Nguatemalaempresa1[dir="both"]; 
-Aguatemala-> Nguatemalaempresa1[dir="both"];
-{ rank = same; Uempresa1;Nguatemalaempresa1;} 
-Uprofutbol-> Nguatemalaprofutbol[dir="both"]; 
-Nguatemalaprofutbol-> Nguatemalaempresa1; 
-Nguatemalaempresa1-> Nguatemalaprofutbol; 
-{ rank = same; Uprofutbol;Nguatemalaprofutbol;} 
-subgraph cluster_0 {   style = filled; charset = latin1; bgcolor = black; color = white; node[fillcolor =lemonchiffon , fontcolor = black , color = darkolivegreen3 ,style = filled, shape = record];label = "Ejes en Z"; Zjutiapacamperoroberto [label = "roberto" width = 1.5 ];  
-Zzacapadespensadaniel [label = "daniel" width = 1.5 ];  
-Zguatemalaempresa1pedrito [label = "pedrito" width = 1.5 ];  
-Zguatemalaprofutbolveronica [label = "veronica" width = 1.5 ];  
-Zguatemalaprofutboljony [label = "jony" width = 1.5 ];  
-Zguatemalaprofutbolheroe [label = "heroe" width = 1.5 ];  
-Njutiapacampero-> Zjutiapacamperoroberto[ arrowhead = "empty" color=green dir="both" ]; 
-Nzacapadespensa-> Zzacapadespensadaniel[ arrowhead = "empty" color=green dir="both" ]; 
-Nguatemalaempresa1-> Zguatemalaempresa1pedrito[ arrowhead = "empty" color=green dir="both" ]; 
-Nguatemalaprofutbol-> Zguatemalaprofutbolveronica[ arrowhead = "empty" color=green dir="both" ]; 
-Zguatemalaprofutbolveronica-> Zguatemalaprofutboljony; 
-Zguatemalaprofutboljony-> Zguatemalaprofutbolveronica; 
-Zguatemalaprofutboljony-> Zguatemalaprofutbolheroe; 
-Zguatemalaprofutbolheroe-> Zguatemalaprofutboljony; 
-}}
+Mt -> Ufedex[dir="both"]; Mt -> Aguatemala[dir="both"]; 
+{ rank = same; Mt;Aguatemala; } 
+Nguatemalafedex [label = "sergio" width = 1.5, group =guatemala ];  
+Ufedex-> Nguatemalafedex[dir="both"]; 
+Aguatemala-> Nguatemalafedex[dir="both"];
+{ rank = same; Ufedex;Nguatemalafedex;} 
+subgraph cluster_0 {   style = filled; charset = latin1; bgcolor = black; color = white; node[fillcolor =lemonchiffon , fontcolor = black , color = darkolivegreen3 ,style = filled, shape = record];label = "Ejes en Z"; }}

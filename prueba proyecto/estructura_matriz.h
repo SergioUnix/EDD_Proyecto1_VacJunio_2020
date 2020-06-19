@@ -78,18 +78,7 @@ public:
 	// Este metodo me compara dos strings pero los compara haciendolos cadena de char primero porque se utiliza el metodo strcpy_s 
 	// El cual me devuelve un int el cual me dice que orden alfabeticamente van los dos strings
 	// Este codigo es totalmente mio, 
-	int comparar(std::string a22, std::string b22) {
-
-		string a = "";
-		a = a + a22[0];
-		a = a + a22[1];
-		a = a + a22[2];
-		string b = "";
-		b= b + b22[0];
-		b = b + b22[1];
-		b = b + b22[2];
-
-		//cout << " cadena a " << a << " cadena b " << b << endl;
+	int comparar(std::string a, std::string b) {
 		int n1 = a.length();
 		int n2 = b.length();
 
@@ -101,6 +90,7 @@ public:
 		strcpy_s(char_b, b.c_str());
 		return strcmp(char_a, char_b);
 	}
+
 
 
 
@@ -269,6 +259,46 @@ void activoDisponible(string id_activo) {
 };
 
 
+
+////Verifico si existe el ID activo en toda la matriz y en cada arbol balanceado
+bool existActivo(string id_activo)  {
+	Nodo* enX = this->root->getNext();
+	//Nodo* enY = this->root;
+	Nodo* NodoCol = 0;
+	Nodo*temporal = 0;
+	bool result = false;
+
+	while (enX != 0) {
+		NodoCol = enX;
+		while (NodoCol != 0) {
+			temporal = NodoCol->getZ_back();
+			//if (NodoCol->getDato()!=nombre  && NodoCol->getPass()!=pass) {
+			if (NodoCol->getY() != "-1") {
+				result =NodoCol->getAVL()->buscarDato(id_activo);
+				if (result == true) { result = true; return true; break; };
+			}
+			while (temporal != 0) {
+
+				if (temporal != 0) {
+					//if (comparar(NodoCol->getDato(), nombre) != 0 && comparar(NodoCol->getPass(), pass) != 0) {
+					result =temporal->getAVL()->buscarDato(id_activo);
+					if (result == true) { result = true; return true; break; };
+					//}
+					temporal = temporal->getZ_back();
+				}
+				else { break; };
+			};
+
+			NodoCol = NodoCol->getDown();
+		}
+
+		enX = enX->getNext();
+	}
+
+	return result;
+};
+
+
 //////  Aca imprimo todas las graficas de avl segun un departamento dado
 void reporteDepartamento(string departamento) {
 	string depa = aMinuscula(departamento);
@@ -315,6 +345,60 @@ if(NodoCol->getX()==depa){
 	string dot_total = arboles_departamentos + arboles_final;
 	generar_txt_departamentos(dot_total);
 };
+
+
+
+
+//imprimo todos los usuarios existentes en la aplicacion,, todos sus datos
+void menuUsuarios() {
+
+	Nodo* enX = this->root->getNext();
+	//Nodo* enY = this->root;
+	Nodo* NodoCol = 0;
+	Nodo*temporal = 0;
+	int auxiliar = 0;
+
+
+
+
+	while (enX != 0) {
+		NodoCol = enX;
+		while (NodoCol != 0) {
+			temporal = NodoCol->getZ_back();
+
+			       
+			
+				if (NodoCol->getY() != "-1") {
+					cout << "Nombre: " << NodoCol->getDato() << " Password: " << NodoCol->getPass() << " Departamento: " << NodoCol->getX() << " Empresa: " << NodoCol->getY() << endl;
+
+
+				}
+				while (temporal != 0) {
+
+					if (temporal != 0) {
+						cout << "Nombre: " << temporal->getDato() << " Password: " << temporal->getPass() << " Departamento: " << temporal->getX() << " Empresa: " << temporal->getY() << endl;
+
+						auxiliar++;
+						//}
+						temporal = temporal->getZ_back();
+					}
+					else { break; };
+				};
+				//todo la columna
+		
+			NodoCol = NodoCol->getDown();
+		}
+
+		enX = enX->getNext();
+	}
+
+
+};
+
+
+
+
+
 
 
 
@@ -599,7 +683,65 @@ void reporteEmpresa(string empresa) {
 
 	};
 
+	//es como un login... solo que verifico todos los datos menos el pasword
 
+	bool login_registro(string xx, string yy, T datorev) {
+		string x = aMinuscula(xx);
+		string y = aMinuscula(yy);
+		string dato = aMinuscula(datorev);
+		
+
+		Nodo* NodoCol = this->buscar_columna(x);
+		Nodo* NodoFila = this->buscar_fila(y);
+
+		Nodo*temporaldato = 0;
+		bool result = false;
+
+		if (NodoCol != 0 && NodoFila != 0) {
+			//	std::cout << "Existe la coordenada  " << std::endl;
+
+			while (NodoCol != 0) {
+
+				if (comparar(NodoCol->getX(), x) == 0 && comparar(NodoCol->getY(), y) == 0) {
+					temporaldato = NodoCol;
+
+					while (temporaldato != 0) {
+						if (temporaldato != 0) {
+
+							//aca verifico si existe el dato
+							if (comparar(temporaldato->getDato(), dato) == 0) {
+								//	std::cout << "Se encontro el if del true en el while  " << std::endl;
+								result = true;
+								return true;
+								break;
+							}
+
+						}
+						else {
+							break;
+						};
+						temporaldato = temporaldato->getZ_back();
+
+					};
+
+
+
+
+					break;
+				}
+				NodoCol = NodoCol->getDown();
+
+
+
+
+
+
+			}
+		}
+		return result;
+
+
+	};
 
 
 
@@ -697,6 +839,13 @@ void reporteEmpresa(string empresa) {
 
 	}
 
+	
+
+
+
+
+
+
 	std::string grafic() {
 		std::string linea1 = "digraph Sparce_Matrix { \n";
 		std::string linea2 = "node [shape=box]  \n";
@@ -749,20 +898,21 @@ void reporteEmpresa(string empresa) {
 
 					recoXZ = recoX->getZ_back();
 					while (recoXZ != 0) {
-						if (comodin_filaZ<0) { punteros_Z = punteros_Z + "N" + recoXZ->getX() + recoXZ->getY() + "-> Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato()  + "[ arrowhead = \"empty\" color=green dir=\"both\" ]; \n";      comodin_filaZ += 1;
+						if (comodin_filaZ<0) {
+							punteros_Z = punteros_Z + "N" + recoXZ->getX() + recoXZ->getY() + "-> Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato() + "[ arrowhead = \"empty\" color=green dir=\"both\" ]; \n";      comodin_filaZ += 1;
 						}
 						else {}
 
 
-						Z = Z + "Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato()+ " [label = \"" + recoXZ->getDato() + "\" width = 1.5 ];  \n";
-                   							if (recoXZ->getZ_back() != 0) {
-								punteros_Z = punteros_Z + "Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato() + "-> Z" + recoXZ->getZ_back()->getX() + recoXZ->getZ_back()->getY() + recoXZ->getZ_back()->getDato() + "; \n";
-								punteros_Z= punteros_Z + "Z" + recoXZ->getZ_back()->getX() + recoXZ->getZ_back()->getY() + recoXZ->getZ_back()->getDato() + "-> Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato() + "; \n";
-							}
+						Z = Z + "Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato() + " [label = \"" + recoXZ->getDato() + "\" width = 1.5 ];  \n";
+						if (recoXZ->getZ_back() != 0) {
+							punteros_Z = punteros_Z + "Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato() + "-> Z" + recoXZ->getZ_back()->getX() + recoXZ->getZ_back()->getY() + recoXZ->getZ_back()->getDato() + "; \n";
+							punteros_Z = punteros_Z + "Z" + recoXZ->getZ_back()->getX() + recoXZ->getZ_back()->getY() + recoXZ->getZ_back()->getDato() + "-> Z" + recoXZ->getX() + recoXZ->getY() + recoXZ->getDato() + "; \n";
+						}
 						recoXZ = recoXZ->getZ_back();
 						auxiliar = auxiliar + 1;
 					}
-				  comodin_filaZ = -1;
+					comodin_filaZ = -1;
 					/////////////////////////
 
 					if (recoX->getNext() != 0) {
@@ -840,9 +990,21 @@ void reporteEmpresa(string empresa) {
 
 		std::string subgrafo = "subgraph cluster_0 {   style = filled; charset = latin1; bgcolor = black; color = white; node[fillcolor =lemonchiffon , fontcolor = black , color = darkolivegreen3 ,style = filled, shape = record];label = \"Ejes en Z\"; ";
 
-		std::string total = linea1 + linea2 + linea3 + linea4 + linea5 + linea6 + linea7 + linea8 + linea9 + linea10 + linea11 + filas + punteros_fila+subgrafo + Z + punteros_Z +"}"+ "}";
+		std::string total = linea1 + linea2 + linea3 + linea4 + linea5 + linea6 + linea7 + linea8 + linea9 + linea10 + linea11 + filas + punteros_fila + subgrafo + Z + punteros_Z + "}" + "}";
 		return total;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 	void generar_txt() {
 		std::string texto = grafic();

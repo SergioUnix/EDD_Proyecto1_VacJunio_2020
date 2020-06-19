@@ -680,9 +680,10 @@ void estructura_arbol_valanceado<string>::recorrido_grap(Nodo<string> * node, st
 
 	recorrido_grap(node->Node_Izquierdo, "0", node->Info); //se va por la Izquierda
 
-	if (lado != "root"&& Node_papa != "root") { direcciones = direcciones + Node_papa + ":C" + lado + "->" + node->Info + "\n"; } ////if que guarda las direcciones de los nodos
-	grafico = grafico +node->Info + "[ label =\"<C0>|{" + node->nombre +"|"+node->Info + "|"+node->estado+"}|<C1>\"]; \n"; // concateno los nodos
+	if (lado != "root"&& Node_papa != "root") { direcciones = direcciones + "\"" + Node_papa + "\"" + ":C" + lado + "->" + "\"" + node->Info + "\"" + ";\n"; } ////if que guarda las direcciones de los nodos
 
+	grafico = grafico + "\"" + node->Info + "\"" + "[ label =\"<C0>|{" + node->nombre + "|" + node->Info + "|" + node->estado + "}|<C1>\"]; \n"; // concateno los nodos
+	if (node->estado == "no disponible") { ocupados = ocupados + "\"" + node->Info + "\"" + ";"; }
 	recorrido_grap(node->Node_Derecho, "1", node->Info);//Se va por la derecha
 
 
@@ -704,14 +705,13 @@ void estructura_arbol_valanceado<string>::recorrido_grap_reporte(Nodo<string> * 
 	}
 
 
-	recorrido_grap_reporte(node->Node_Izquierdo, "0", node->Info); //se va por la Izquierda
+	recorrido_grap(node->Node_Izquierdo, "0", node->Info); //se va por la Izquierda
 
-	if (lado != "root"&& Node_papa != "root") { direcciones = direcciones + Node_papa + ":C" + lado + "->" + node->Info + "\n"; } ////if que guarda las direcciones de los nodos
-	
-	grafico = grafico + node->Info + "[ label =\"<C0>|{" + node->nombre + "|" + node->Info + "|" + node->estado + "}|<C1>\"]; \n"; // concateno los nodos
-	if (node->estado == "no disponible") { ocupados = ocupados + node->Info + ";"; }
-	recorrido_grap_reporte(node->Node_Derecho, "1", node->Info);//Se va por la derecha
+	if (lado != "root"&& Node_papa != "root") { direcciones = direcciones + "\"" + Node_papa + "\"" + ":C" + lado + "->" + "\"" + node->Info + "\"" + ";\n"; } ////if que guarda las direcciones de los nodos
 
+	grafico = grafico + "\"" + node->Info + "\"" + "[ label =\"<C0>|{" + node->nombre + "|" + node->Info + "|" + node->estado + "}|<C1>\"]; \n"; // concateno los nodos
+	if (node->estado == "no disponible") { ocupados = ocupados + "\"" + node->Info + "\"" + ";"; }
+	recorrido_grap(node->Node_Derecho, "1", node->Info);//Se va por la derecha
 
 
 
@@ -726,7 +726,7 @@ std::string  estructura_arbol_valanceado<T>::texto_departamento(string usuario,s
 	ocupados = "";
 	recorrido_grap_reporte(root, "root", "root");
 	string aa = "";
-	if (ocupados == "") { aa = "node[fillcolor =red , fontcolor = navy , color = dark ,style = filled, shape = record, width = .1, height = .1]" + ocupados + ";";
+	if (ocupados == "") { aa = "node[fillcolor =red , fontcolor = navy , color = black ,style = filled, shape = record, width = .1, height = .1]" + ocupados + ";";
 	}
 	else { aa = "node[fillcolor =red , fontcolor = navy , color = dark ,style = filled, shape = record, width = .1, height = .1]" + ocupados ; }
 	
@@ -742,9 +742,17 @@ std::string  estructura_arbol_valanceado<T>::texto_grafic() {
 	grafico = "";
 	direcciones = "";
 	ocupados = "";
+	string auxiliar = "";
+	string usuario = "Activos";
 	recorrido_grap(root, "root", "root");
-	string linea1 = "digraph grafica{ \nrankdir=TB; \nnode[fillcolor =cyan , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];\nlabel = \"Arbol Balanceado \" ;\n";
-	return linea1 + grafico + direcciones + "} \n";
+	string aa = "";
+	if (ocupados == "") {
+		aa = "node[fillcolor =red , fontcolor = navy , color = black ,style = filled, shape = record, width = .1, height = .1]" + ocupados + ";";
+	}
+	else { aa = "node[fillcolor =red , fontcolor = navy , color = dark ,style = filled, shape = record, width = .1, height = .1]" + ocupados; }
+
+	string linea1 = "digraph activos{ \nrankdir=TB;\n" + aa + "\nnode[fillcolor =green , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];\n";
+	return linea1 + grafico + direcciones + "node[fillcolor =white  width = 0.1, height = .1];" + usuario + auxiliar + "[label=\"{Reporte | " + usuario + "}\" fontcolor=red];" + "} \n";
 	std::cout << std::endl;
 
 }

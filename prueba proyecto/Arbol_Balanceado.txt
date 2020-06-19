@@ -1,0 +1,8 @@
+digraph activos{ 
+rankdir=TB;
+node[fillcolor =red , fontcolor = navy , color = black ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =green , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+"134xiw92vm114pc"[ label ="<C0>|{cuartodaniel|134xiw92vm114pc|disponible}|<C1>"]; 
+"153cdc85oc161lm"[ label ="<C0>|{edificiodaniel|153cdc85oc161lm|disponible}|<C1>"]; 
+"153cdc85oc161lm":C0->"134xiw92vm114pc";
+node[fillcolor =white  width = 0.1, height = .1];Activos[label="{Reporte | Activos}" fontcolor=red];} 

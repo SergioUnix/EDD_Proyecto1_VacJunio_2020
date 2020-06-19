@@ -1,19 +1,33 @@
 digraph departamentos{ 
 subgraph dep{ 
 rankdir=TB;
-node[fillcolor =red , fontcolor = navy , color = dark ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =red , fontcolor = navy , color = black ,style = filled, shape = record, width = .1, height = .1];
 node[fillcolor =green , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
-63[ label ="<C0>|{edificiosergio|63|disponible}|<C1>"]; 
-69[ label ="<C0>|{cuartosergio|69|disponible}|<C1>"]; 
-63:C1->69
-node[fillcolor =white  width = 0.1, height = .1];sergio0[label="{User | sergio}" fontcolor=red];} 
+node[fillcolor =white  width = 0.1, height = .1];pablo0[label="{User | pablo}" fontcolor=red];} 
 subgraph dep{ 
 rankdir=TB;
-node[fillcolor =red , fontcolor = navy , color = dark ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =red , fontcolor = navy , color = black ,style = filled, shape = record, width = .1, height = .1];
 node[fillcolor =green , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
-76[ label ="<C0>|{edificiodaniel|76|disponible}|<C1>"]; 
-82[ label ="<C0>|{cuartodaniel|82|disponible}|<C1>"]; 
-76:C1->82
-node[fillcolor =white  width = 0.1, height = .1];daniel1[label="{User | daniel}" fontcolor=red];} 
+node[fillcolor =white  width = 0.1, height = .1];pedrito1[label="{User | pedrito}" fontcolor=red];} 
+subgraph dep{ 
+rankdir=TB;
+node[fillcolor =red , fontcolor = navy , color = black ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =green , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =white  width = 0.1, height = .1];madelyn2[label="{User | madelyn}" fontcolor=red];} 
+subgraph dep{ 
+rankdir=TB;
+node[fillcolor =red , fontcolor = navy , color = black ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =green , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =white  width = 0.1, height = .1];veronica3[label="{User | veronica}" fontcolor=red];} 
+subgraph dep{ 
+rankdir=TB;
+node[fillcolor =red , fontcolor = navy , color = black ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =green , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =white  width = 0.1, height = .1];jony4[label="{User | jony}" fontcolor=red];} 
+subgraph dep{ 
+rankdir=TB;
+node[fillcolor =red , fontcolor = navy , color = black ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =green , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];
+node[fillcolor =white  width = 0.1, height = .1];heroe5[label="{User | heroe}" fontcolor=red];} 
 label = "Reporte por Departamento " ;
 }

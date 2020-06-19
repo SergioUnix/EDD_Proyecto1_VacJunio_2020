@@ -64,12 +64,18 @@ public:
 		first = 0;
 		last = 0;
 		size = 0;
+
+		firstO = 0;
+		lastO = 0;
+		sizeO = 0;
 	}
 
 	int getSize() { return size; }
 	void add_ordenado(std::string datos, string act, string usu, string dep, string fec, string tie, std::string emp);
 	void add_first(std::string datos, string act, string usu, string dep, string fec, string tie, std::string emp);
+	void add_first_(std::string datos, string act, string usu, string dep, string fec, string tie, std::string emp);
 	void add_last(std::string datos, string act, string usu, string dep, string fec, string tie, std::string emp);
+	void add_last_(std::string datos, string act, string usu, string dep, string fec, string tie, std::string emp);
 	void add_at(std::string datos, string act, string usu, string dep, string fec, string tie, std::string emp, int index);
 	void remove_at(int index);
 	std::string remove_cadena(string cadena);
@@ -80,8 +86,16 @@ public:
 	std::string get_element_at(int index);
 	void lista_imprimir();
 
+	//para el reporte 
+	std::string grafic_reporte(string nom, string dep, string emp);
+	void generar_txt_reporte(string nom, string dep,string emp);
+	//para el ordenamiento
+	void orden();
+	std::string grafic_();
+	void generar_txt_();
 
-	void usuarioTransaccion(string nombre,string departamento,string empresa);
+	bool usuarioTransaccion(string nombre,string departamento,string empresa);
+
 
 
 	string aMinuscula(string cadena) {
@@ -112,6 +126,11 @@ private:
 	int size;
 	Nodo *first;
 	Nodo *last;
+
+	bool isEmptyO() { return sizeO == 0; }
+	int sizeO;
+	Nodo *firstO;
+	Nodo *lastO;
 };
 
 void estructura_circular::limpiar()
@@ -313,7 +332,7 @@ std::string estructura_circular::get_element_at(int index)
 	{
 		Nodo *iterador = this->first;
 		int x = 0;
-		for (int k = 0; k <this->size; k++) {
+		for (int k = 0; k < this->size; k++) {
 			if (help == x) { return iterador->getDato(); break; }
 			iterador = iterador->getNext();
 			x++;
@@ -344,7 +363,7 @@ bool estructura_circular::exist(std::string cadena)
 	int x = 1;
 	while (true)
 	{
-		if (cadena == node->getDato()) { result = true; }
+		if (cadena == node->getDato()) { result = true; return true; }
 		x++;
 		if (node->getNext() == this->first || node->getNext() == 0) { break; }
 		node = node->getNext();
@@ -356,7 +375,7 @@ bool estructura_circular::exist(std::string cadena)
 
 ///transacciones de un Usuario
 /////verifica si existe la cadena dentro de la estructura
-void estructura_circular::usuarioTransaccion(string nom, string dep, string emp)
+bool estructura_circular::usuarioTransaccion(string nom, string dep, string emp)
 {
 	string nombre = aMinuscula(nom);
 	string departamento = aMinuscula(dep);
@@ -373,14 +392,14 @@ void estructura_circular::usuarioTransaccion(string nom, string dep, string emp)
 			cout << "Id transaccion: " << node->getDato() << " Realizo la Renta: " << node->getUsuario() << " Id renta: " << node->getActivo();
 			cout << " Departamento: " << node->getDepartamento() << " Empresa: " << node->getEmpresa() << " Fecha: " << node->getFecha();
 			cout << " TiempoRenta: " << node->getTiempo() <<endl<<endl;
-			
+			result = true; 
 		}
 		x++;
 		if (node->getNext() == this->first || node->getNext() == 0) { break; }
 		node = node->getNext();
 	}
 
-	return ;
+	return result;
 }
 
 ///Elimino dado un String pero devuelvo un alfanumerico del activo para eliminarlo tambien
@@ -452,7 +471,7 @@ std::string estructura_circular::grafic()
 	//      aux=aux->getNext();
 
 	while (node!=0) {
-		nodos = nodos + "node" + std::to_string(index) + "[label = \"{<n> |" + node->getDato() + "| <p> }\"];\n";
+		nodos = nodos + "node" + std::to_string(index) + "[label = \"{<n> |{" + node->getDato() +"|"+ node->getUsuario() +"|"+node->getDepartamento() + "|" + node->getEmpresa() + "|" + node->getActivo() + "}| <p> }\"];\n";
 		
 
 		if (index == 1 && size ==1) {
@@ -506,3 +525,275 @@ void estructura_circular::generar_txt() {
 
 };
 
+
+
+/////// Generar Reporte
+
+
+std::string estructura_circular::grafic_reporte(string nom,string dep, string emp)
+{
+	this->firstO = 0;
+		this->sizeO = 0;
+		this->lastO = 0;
+
+
+
+	Nodo *node = this->first;
+	//int index = 1;
+
+	while (node != 0) {
+//	cout << "datos ingresados   " << nom << " " << dep << " " << emp << endl;
+		if (node->getUsuario() == nom && node->getDepartamento() == dep && node->getEmpresa() == emp) {
+		
+			add_first_(node->getDato(), node->getActivo(), node->getUsuario(), node->getDepartamento(), node->getFecha(), node->getTiempo(), node->getEmpresa());
+		}
+		if (node->getNext() == this->first || node->getNext() == 0) { break; }
+		node = node->getNext();
+
+	}
+	
+	
+
+
+	std::string linea1 = " digraph G {\n";
+	std::string linea2 = "nodesep=.02;\n";
+	std::string linea3 = "rankdir=LR;\n";
+	std::string linea4 = "node[fillcolor =cyan , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];\nlabel = \"Lista Circular\" ;\n";
+	std::string linea5 = "";
+	std::string linea6 = "node [width =1.5];\n";
+
+	Nodo *nodes = this->firstO;
+	//node =self.head
+	int index = 1;
+	std::string nodos = "";
+	std::string direccion = "";
+
+	std::string primer = "";
+	std::string ultimo = "";
+
+	// if(aux->getNext()==this->first||aux->getNext()==0){break;} ///si llega aca ya llego al ultimo nodo
+	//      aux=aux->getNext();
+
+	while (nodes != 0) {
+
+			nodos = nodos + "node" + std::to_string(index) + "[label = \"{<n> |{" + nodes->getDato() + "|" + nodes->getUsuario() + "|" + nodes->getDepartamento() + "|" + nodes->getEmpresa() + "|" + nodes->getActivo() + "}| <p> }\"];\n";
+
+
+			if (index == 1 && sizeO == 1) {
+				direccion = direccion + "node" + std::to_string(index) + ":n -> node" + std::to_string(index) + ":p;\n";
+				direccion = direccion + "node" + std::to_string(index) + ":p -> node" + std::to_string(index) + ":n;\n";
+			}
+			else if (index == 1) {
+				direccion = direccion + "node" + std::to_string(index) + ":n -> node" + std::to_string(this->sizeO) + ":p;\n";
+				direccion = direccion + "node" + std::to_string(index) + ":p -> node" + std::to_string(index + 1) + ":n;\n";
+			}
+			else if (index == this->sizeO) {
+				direccion = direccion + "node" + std::to_string(index) + ":n -> node" + std::to_string(index - 1) + ":p;\n";
+				direccion = direccion + "node" + std::to_string(index) + ":p -> node" + std::to_string(1) + ":n;\n";
+			}
+			else {
+
+				direccion = direccion + "node" + std::to_string(index) + ":n -> node" + std::to_string(index - 1) + ":p;\n";
+				direccion = direccion + "node" + std::to_string(index) + ":p -> node" + std::to_string(index + 1) + ":n;\n";
+			}
+
+	
+
+			index = index + 1;
+
+			if (nodes->getNext() == this->firstO || nodes->getNext() == 0) { break; }
+			nodes = nodes->getNext();
+
+		}
+
+		std::string lineafinal = "}\n";
+		std::string grafo = linea1 + linea2 + linea3 + linea4 + linea5 + linea6 + nodos + direccion + lineafinal;
+		return grafo;
+
+}
+
+
+
+void estructura_circular::generar_txt_reporte(string nom, string dep,string emp) {
+	//if (size > 0) {
+	std::string texto = grafic_reporte(nom,dep,emp);
+	std::ofstream archivo;
+	archivo.open("circular.txt", std::ios::out);
+
+	archivo << texto;
+	archivo.close();
+
+	std::string sentencia = "dot -Tpng circular.txt -o circular.png";
+	std::string sentencia2 = "start circular.png";
+	std::string salir = "EXIT";
+	system(sentencia.c_str());
+	system(sentencia2.c_str());
+	system(salir.c_str());
+	//}
+
+
+};
+
+
+
+
+
+
+
+///ordenamiento
+
+void estructura_circular::orden()
+{
+
+	this->firstO = 0;
+	this->sizeO = 0;
+	this->lastO = 0;
+
+
+	Nodo *node = this->first;
+	int index = 1;
+	
+	while (node != 0) {
+
+		add_first_(node->getDato(),node->getActivo(), node->getUsuario(), node->getDepartamento(),node->getFecha(),node->getTiempo(),node->getEmpresa());
+
+		if (node->getNext() == this->first || node->getNext() == 0) { break; }	
+		node = node->getNext();
+
+	}
+
+
+}
+
+
+void estructura_circular::add_first_(std::string datos, std::string act, std::string usu, std::string dep, std::string fec, std::string tie, std::string emp)
+{
+	string dato = aMinuscula(datos); string activo = aMinuscula(act);
+	string usuario = aMinuscula(usu); string departamento = aMinuscula(dep); string fecha = aMinuscula(fec); string tiempo = aMinuscula(tie);
+	string empresa = aMinuscula(emp);
+
+	Nodo *n = new Nodo(dato, activo, usuario, departamento, fecha, tiempo, empresa);
+	if (this->isEmptyO())
+	{
+		this->firstO = n;
+		this->lastO = n;
+		this->sizeO++;
+	}
+	else
+	{
+		n->setNext(this->firstO);
+		this->firstO->setBefore(n);
+		this->firstO = n;
+		this->firstO->setBefore(this->lastO); // aca seteo el puntero primer puntero para que apunte hacia el ultimo porque es estructura_circular
+		this->lastO->setNext(this->firstO); // aca seteo el puntero ultimo puntero para que apunte hacia el primeroo porque es estructura_circular
+		this->sizeO++;
+	}
+}
+
+
+
+
+
+void estructura_circular::add_last_(std::string datos, std::string act, std::string usu, std::string dep, std::string fec, std::string tie, std::string emp)
+{
+	string dato = aMinuscula(datos); string activo = aMinuscula(act);
+	string usuario = aMinuscula(usu); string departamento = aMinuscula(dep); string fecha = aMinuscula(fec); string tiempo = aMinuscula(tie);
+	string empresa = aMinuscula(emp);
+	if (this->isEmptyO())
+	{
+		this->add_first_(dato, activo, usuario, departamento, fecha, tiempo, empresa);
+	}
+	else
+	{
+		Nodo *n = new Nodo(dato, activo, usuario, departamento, fecha, tiempo, empresa);
+		this->lastO->setNext(n);
+		n->setBefore(this->lastO);
+		this->lastO = n;
+		this->lastO->setNext(this->firstO); // aca seteo el puntero ultimo puntero para que apunte hacia el primero porque es estructura_circular
+		this->firstO->setBefore(this->lastO); // aca seteo el puntero primer puntero para que apunte hacia el ultimo porque es estructura_circular
+		this->sizeO++;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+std::string estructura_circular::grafic_()
+{
+
+	std::string linea1 = " digraph G {\n";
+	std::string linea2 = "nodesep=.02;\n";
+	std::string linea3 = "rankdir=LR;\n";
+	std::string linea4 = "node[fillcolor =cyan , fontcolor = navy , color = darkolivegreen3 ,style = filled, shape = record, width = .1, height = .1];\nlabel = \"Lista Circular\" ;\n";
+	std::string linea5 = "";
+	std::string linea6 = "node [width =1.5];\n";
+
+	Nodo *node = this->firstO;
+	//node =self.head
+	int index = 1;
+	std::string nodos = "";
+	std::string direccion = "";
+
+	// if(aux->getNext()==this->firstO||aux->getNext()==0){break;} ///si llega aca ya llego al ultimo nodo
+	//      aux=aux->getNext();
+
+	while (node != 0) {
+		nodos = nodos + "node" + std::to_string(index) + "[label = \"{<n> |{" + node->getDato() + "|" + node->getUsuario() + "|" + node->getDepartamento() + "|" + node->getEmpresa() + "|" + node->getActivo() + "}| <p> }\"];\n";
+
+
+		if (index == 1 && sizeO == 1) {
+			direccion = direccion + "node" + std::to_string(index) + ":n -> node" + std::to_string(index) + ":p;\n";
+			direccion = direccion + "node" + std::to_string(index) + ":p -> node" + std::to_string(index) + ":n;\n";
+		}
+		else if (index == 1) {
+			direccion = direccion + "node" + std::to_string(index) + ":n -> node" + std::to_string(this->sizeO) + ":p;\n";
+			direccion = direccion + "node" + std::to_string(index) + ":p -> node" + std::to_string(index + 1) + ":n;\n";
+		}
+		else if (index == this->sizeO) {
+			direccion = direccion + "node" + std::to_string(index) + ":n -> node" + std::to_string(index - 1) + ":p;\n";
+			direccion = direccion + "node" + std::to_string(index) + ":p -> node" + std::to_string(1) + ":n;\n";
+		}
+		else {
+
+			direccion = direccion + "node" + std::to_string(index) + ":n -> node" + std::to_string(index - 1) + ":p;\n";
+			direccion = direccion + "node" + std::to_string(index) + ":p -> node" + std::to_string(index + 1) + ":n;\n";
+		}
+		index = index + 1;
+
+		if (node->getNext() == this->firstO || node->getNext() == 0) { break; }
+		node = node->getNext();
+
+	}
+
+	std::string lineafinal = "}\n";
+	std::string grafo = linea1 + linea2 + linea3 + linea4 + linea5 + linea6 + nodos + direccion + lineafinal;
+	return grafo;
+
+}
+
+
+void estructura_circular::generar_txt_() {
+	//if (size > 0) {
+	std::string texto = grafic_();
+	std::ofstream archivo;
+	archivo.open("circular_ordenado.txt", std::ios::out);
+
+	archivo << texto;
+	archivo.close();
+
+	std::string sentencia = "dot -Tpng circular_ordenado.txt -o circular_ordenado.png";
+	std::string sentencia2 = "start circular_ordenado.png";
+	std::string salir = "EXIT";
+	system(sentencia.c_str());
+	system(sentencia2.c_str());
+	system(salir.c_str());
+	//}
+
+
+};
